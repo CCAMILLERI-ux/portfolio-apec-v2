@@ -1,5 +1,6 @@
 import { ArrowRight, Calendar, Chat } from '../components/Icons'
 import { Illustration } from '../components/Illustration'
+import { ExistingCatalog } from '../components/ExistingCatalog'
 import { ModalityChips } from '../components/Modalities'
 import { ProtoLayout } from '../components/ProtoLayout'
 import { ObservedServiceCard, PhotoVisual, ServiceAction, ServiceCard } from '../components/ServiceCard'
@@ -117,6 +118,10 @@ export function Case1({ route }: { route: Route }) {
       coulisses={<Case1Coulisses />}
       coulissesMinimal
     >
+      {view === 'existant' ? (
+        <ExistingCatalog key={String(onlyWorkshops)} onlyWorkshops={onlyWorkshops} />
+      ) : (
+      <>
       <div className="band band--tall">
         <div className="container">
           <p className="band__kicker">Nos services</p>
@@ -254,6 +259,8 @@ export function Case1({ route }: { route: Route }) {
           </>
         )}
       </div>
+      </>
+      )}
     </ProtoLayout>
   )
 }

@@ -194,3 +194,34 @@ export function nextSlotInDays(serviceId: string): number | undefined {
   }
   return undefined
 }
+
+/**
+ * Phrase de présentation de chaque rendez-vous, reprise telle quelle de la page « Tous nos services »
+ * d'apec.fr (relevé fourni par la candidate). Les textes coupés sur la page le restent (« … »).
+ */
+export const RDV_SUMMARY: Record<string, string> = {
+  'candidature': 'En 45 minutes, transformez votre CV et lettre de motivation pour décrocher le job de vos rêves !',
+  'entretien-programme': 'Préparez-vous sereinement pour votre entretien d’embauche avec une simulation sur-mesure et le feedback d’un professionnel !',
+  'potentiel-marche': 'Votre profil est-il recherché sur le marché du travail ? Pour le savoir, faites le point avec un consultant',
+  'experience-talents': 'Reprenez le contrôle de votre carrière : transformez votre expérience en atout et ouvrez de nouvelles perspectives…',
+  'formation-embauche': 'Vous avez trouvé un poste de cadre mais il vous manque des compétences ? Formez-vous avant l’embauche et sécurisez votre nouveau…',
+  'cles-emploi': 'Vous n’arrivez pas à décrocher votre premier emploi ? Ne restez pas seul. Faites appel à un consultant',
+  'changement-poste': 'Donnez un nouvel élan à votre carrière : l’Apec vous guide pour révéler vos atouts et saisir les bonnes opportunités.',
+  'mi-carriere': '20 ans d’expérience professionnelle et après : comment évoluer vers un nouveau poste ou se fixer un nouveau challenge ?',
+  'international': 'Éclairez votre avenir professionnel à l’international avec un expert qui analyse, conseille et oriente vos choix stratégiques.',
+  'cep': 'Faites évoluer votre carrière avec le Conseil en Evolution Professionnelle (CEP) : un accompagnement gratuit et personnalisé pour…',
+  'diagnostic-formation': 'Décidez enfin de votre avenir professionnel : un consultant décrypte vos questions et éclaire vos choix de formation.',
+  'solution-formation': 'Donnez vie à votre projet de formation : structurez, financez et concrétisez vos ambitions professionnelles avec un expert.',
+  'pret-creation': 'Passez de l’idée au projet : un entretien personnalisé pour évaluer, clarifier et accélérer votre envie d’entreprendre.',
+  'challenger-idee': 'Bénéficiez d’un regard extérieur pour enrichir votre idée de création d’entreprise',
+  'accompagnement-creation': 'Devenez entrepreneur avec sérénité : un accompagnement sur mesure pour concrétiser vos idées et bâtir votre avenir.',
+  'rendez-vous-conseil': 'Un rendez-vous pour poser le diagnostic de votre situation professionnelle et avancer',
+  'conseil-recrutement': 'Trouvez des solutions concrètes à vos difficultés de recrutement grâce à un diagnostic personnalisé réalisé par un expert !',
+  'preselection-candidats': 'TPE/PME, confiez-nous votre sourcing de la rédaction de votre offre d’emploi à la présélection des candidats.',
+  'audit-marque-employeur': 'Accélérez votre marque employeur et attirez les bons talents grâce à un audit complet de votre attractivité !',
+  'audit-sourcing': 'Vous n’arrivez pas à sourcer ? Evaluez avec un consultant vos pratiques et votre approche des candidats',
+  'audit-process-recrutement': 'Optimisez votre recrutement pour attirer, séduire et retenir les talents dans vos équipes TPE et PME !',
+  'formez-avant-embaucher': 'Formez le candidat idéal avant son embauche avec l’Apec et comblez l’écart de compétences.',
+  'immersion-recrutement': 'Vous souhaitez attirer de nouveaux talents dans votre entreprise ? Proposez l’immersion professionnelle !',
+  'cep-collaborateurs': 'Pour vos collaborateurs, un service particulier, le Conseil en Evolution Professionnelle (CEP).',
+}
