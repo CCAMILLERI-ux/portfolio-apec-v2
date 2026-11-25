@@ -12,6 +12,7 @@ import { NotFound } from './pages/NotFound'
 import { Remuneration } from './pages/Remuneration'
 import { ServicePage } from './pages/ServicePage'
 import { DesignSystem } from './pages/DesignSystem'
+import { SEO_TITLE } from './data/conseilEntretien'
 
 const TITLES: Record<string, string> = {
   '/': 'Accueil',
@@ -19,7 +20,7 @@ const TITLES: Record<string, string> = {
   '/cas-03-inscription': 'Cas 03 — Un parcours guidé vers les services',
   '/cas-03-inscription/services-selectionnes': 'Cas 03 — Mes services sélectionnés',
   '/espace': 'Cas 03 — Mon espace',
-  '/cas-01-seo': 'Cas 01 — De la recherche en ligne aux services',
+  '/cas-01-seo': SEO_TITLE,
   '/conseil/remuneration': 'Cas 01 — Aborder la rémunération',
   '/design-system': 'Design system & prototypage',
   '/plan-seo': 'SEO / GEO : quelques pistes',

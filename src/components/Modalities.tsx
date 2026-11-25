@@ -38,7 +38,7 @@ export function ModalityChips({ items }: { items: Modality[] }) {
         const Icon = ICON[m.label]
         return (
           <li key={m.label} className="chip">
-            <Icon size={16} /> <span className="visually-hidden">{m.label} : </span>{m.value}
+            <Icon size={16} /> <span className="visually-hidden">{m.label}{'\u00a0'}: </span>{m.value}
           </li>
         )
       })}

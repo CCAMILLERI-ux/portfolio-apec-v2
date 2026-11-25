@@ -2021,3 +2021,30 @@ a.esp-row:hover .esp-row__title > span:first-child, button.esp-row:hover .esp-ro
   .bar-variant { align-items: stretch; }
   .bar-variant .bar-variant__note { order: 6; }
 }
+
+/* ---------- Cas 01 : article enrichi (signes d'expertise, En bref, faits sourcés, FAQ, sources) ---------- */
+.a-byline { display: flex; flex-wrap: wrap; gap: 4px 0; margin: -8px 0 var(--s3); font-size: 0.875rem; color: var(--text-secondary-a11y); }
+.a-byline span:not(:last-child)::after { content: '·'; margin: 0 8px; }
+.enbref { margin: 0 0 var(--s3); padding: var(--s2) var(--s3); background: var(--brand-blue-tint); border-left: 5px solid var(--brand-blue); }
+.proto .enbref__title { margin: 0 0 8px; font-size: 1.125rem; }
+.enbref ul { margin: 0; padding-left: 1.2em; }
+.enbref li { margin-bottom: 6px; text-wrap: pretty; }
+.enbref li:last-child { margin-bottom: 0; }
+.src-ref { font-size: 0.875em; white-space: nowrap; }
+.article .sar { padding-left: 1.2em; }
+.article .sar li, .article .facts li { margin-bottom: 8px; text-wrap: pretty; }
+.article .facts { padding-left: 1.2em; }
+.article-table th[scope='row'] { text-align: left; font-weight: 700; white-space: normal; vertical-align: top; width: 34%; }
+.article-table td { vertical-align: top; text-wrap: pretty; }
+.table-scroll--plain .data-table { min-width: 0; }
+.faq { display: grid; gap: var(--s2); }
+.faq__item { padding: var(--s2); border: 1px solid var(--border-neutral); background: #fff; }
+.proto .faq__q { margin: 0 0 6px; font-size: 1.0625rem; }
+.faq__a { margin: 0; text-wrap: pretty; }
+.sources { margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid var(--border-neutral); }
+.sources__list { padding-left: 1.2em; font-size: 0.9375rem; }
+.sources__list li { margin-bottom: var(--s2); }
+.sources__list li:focus { outline: 3px solid var(--brand-blue); outline-offset: 4px; }
+.sources__ref { margin: 0 0 4px; font-weight: 600; }
+.sources__detail { margin: 0 0 2px; color: var(--text-secondary-a11y); text-wrap: pretty; }
+.cr-lead { font-size: 1.0625rem; font-weight: 600; margin: 0 0 var(--s3); max-width: 70ch; text-wrap: pretty; }
