@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Badge } from '../components/Badge'
 import { CrBlock, CroGrid } from '../components/Coulisses'
 import { External, Plus } from '../components/Icons'
@@ -9,51 +9,81 @@ import { CAS3_SOLUTIONS, URSSAF_BRUT_NET } from '../data/cas3'
 import { PageBand } from '../components/PageBand'
 import { ProtoLayout } from '../components/ProtoLayout'
 import { Link } from '../lib/router'
+import { ARTICLE_PATH, articleJsonLd, DATE_MODIFIED, FAQ, SEO_DESC, SEO_TITLE, SOURCES } from '../data/conseilEntretien'
 
 const TOC = [
   { id: 'etapes', label: 'Les 5 étapes de préparation' },
+  { id: 'types', label: 'Les différents types d’entretien' },
   { id: 'questions', label: 'Exemples de questions et pistes de réponse' },
+  { id: 'remuneration', label: 'Parler rémunération' },
+  { id: 'questions-recruteur', label: 'Les questions à poser au recruteur' },
+  { id: 'apres', label: 'Après l’entretien' },
   { id: 'checklist', label: 'Checklist de la veille' },
+  { id: 'faq', label: 'Questions fréquentes' },
   { id: 'accompagnement', label: 'L’Apec vous accompagne' },
+  { id: 'sources', label: 'Sources' },
 ]
 
 const CHECKLIST = [
-  'J’ai relu l’offre et surligné les 3 attentes principales.',
-  'Je peux présenter mon parcours en 2 minutes.',
-  'J’ai préparé 3 exemples concrets de réalisations.',
-  'J’ai noté 2 ou 3 questions à poser au recruteur.',
+  'J’ai relu l’offre et surligné les 3 attentes principales.',
+  'Je peux présenter mon parcours en 2 minutes.',
+  'J’ai préparé 3 exemples concrets de réalisations.',
+  'J’ai noté 2 ou 3 questions à poser au recruteur.',
   'Je connais l’heure, le lieu ou le lien de connexion, et le nom de mon interlocuteur.',
-  'J’ai une fourchette de rémunération en tête.',
+  'J’ai une fourchette de rémunération en tête.',
 ]
 
 const QUESTIONS = [
   {
     q: 'Présentez-vous.',
-    a: 'Un fil conducteur en trois temps : ce que vous faites aujourd’hui, une ou deux réalisations marquantes, pourquoi ce poste est la suite logique.',
+    a: 'Un fil conducteur en trois temps : ce que vous faites aujourd’hui, une ou deux réalisations marquantes, pourquoi ce poste est la suite logique.',
   },
   {
-    q: 'Pourquoi notre entreprise ?',
-    a: 'Reliez un élément précis (projet, marché, valeurs affichées) à ce que vous pouvez y apporter.',
+    q: 'Pourquoi notre entreprise ?',
+    a: 'Reliez un élément précis (projet, marché, valeurs affichées) à ce que vous pouvez y apporter.',
   },
   {
     q: 'Parlez-moi d’une difficulté que vous avez surmontée.',
-    a: 'Situation, action, résultat : décrivez ce que vous avez fait personnellement et ce que vous en avez retenu.',
+    a: 'Appliquez la méthode « Situation, action, résultat » : décrivez ce que vous avez fait personnellement et ce que vous en avez retenu.',
   },
   {
-    q: 'Quelles sont vos prétentions salariales ?',
-    a: 'Donnez une fourchette en brut annuel, préparée à partir de repères de marché (par exemple les données de rémunération publiées par l’Apec) et de votre expérience.',
+    q: 'Quelles sont vos prétentions salariales ?',
+    a: 'Donnez une fourchette en brut annuel, préparée à partir de repères de marché et de votre expérience.',
     link: true,
   },
   {
-    q: 'Avez-vous des questions ?',
-    a: 'Oui, toujours : sur les priorités du poste, l’équipe, les critères de réussite à six mois.',
+    q: 'Avez-vous des questions ?',
+    a: 'Oui, toujours : sur les priorités du poste, l’équipe, les critères de réussite à six mois.',
   },
 ]
+
+/** Formats d'entretien : un conseil court pour chacun. */
+const TYPES: [string, string][] = [
+  ['Présélection téléphonique', 'Gardez l’offre sous les yeux et préparez un pitch de deux minutes : votre parcours et ce que vous apportez au poste.'],
+  ['Entretien en visio', 'Testez la connexion, le son et la caméra la veille ; regardez la caméra quand vous répondez.'],
+  ['Entretien avec le manager', 'Préparez des exemples concrets reliés aux missions et aux résultats attendus du poste.'],
+  ['Entretien avec plusieurs interlocuteurs', 'Adressez-vous à chacun et adaptez vos exemples à son rôle (RH, manager, futur collègue).'],
+  ['Mise en situation', 'Reformulez la consigne, annoncez votre démarche, puis expliquez votre raisonnement autant que le résultat.'],
+]
+
+/** Lien vers une source de la section « Sources » (ancre interne). */
+function Src({ id, children }: { id: string; children: React.ReactNode }) {
+  return <Link to={ARTICLE_PATH} anchor={id} className="src-ref">{children}</Link>
+}
+
+/** Lien vers la fiche d'un service du prototype, avec le nom du service comme ancre. */
+function Svc({ id, children }: { id: string; children: React.ReactNode }) {
+  return <Link to={`/service/${id}?from=cas-3`}>{children}</Link>
+}
+
+/** Temps de lecture estimé (environ 200 mots par minute), arrondi à la minute supérieure. */
+const READING_MINUTES = 8
 
 export function Case3({ path }: { path: string }) {
   const [checked, setChecked] = useState<number[]>([])
   const toggle = (i: number) =>
     setChecked((c) => (c.includes(i) ? c.filter((x) => x !== i) : [...c, i]))
+  useArticleSeo()
 
   return (
     <ProtoLayout
@@ -64,30 +94,58 @@ export function Case3({ path }: { path: string }) {
     >
       <PageBand
         kicker="Conseils · Entretiens de recrutement"
-        title="Comment préparer un entretien de recrutement ?"
+        title="Comment préparer un entretien de recrutement ?"
         titleIsHeading={false}
       />
 
       <div className="container overlap">
         <div className="article-layout">
           <article className="sheet article" aria-labelledby="titre-conseil">
-            <h1 id="titre-conseil" tabIndex={-1}>Comment préparer un entretien de recrutement ?</h1>
+            <h1 id="titre-conseil" tabIndex={-1}>Comment préparer un entretien de recrutement ?</h1>
             <ArticleHero photo={PHOTOS.entretienCandidate} rubric="Conseils" tagSide="right" />
-            <ArticleMeta date="19/11/2026" title="Comment préparer un entretien de recrutement ?" />
+            <ArticleMeta label="Mis à jour le" date="25/11/2026" dateTime={DATE_MODIFIED} title="Comment préparer un entretien de recrutement ?" />
+            <p className="a-byline">
+              <span>Rédaction : équipe éditoriale (fictive)</span>
+              <span>Relu par un consultant Apec (fictif)</span>
+              <span>Lecture : {READING_MINUTES} min</span>
+            </p>
 
             <p className="article__intro">
-              Pour préparer un entretien de recrutement, concentrez-vous sur cinq points : analyser l’offre,
+              Pour préparer un entretien de recrutement, concentrez-vous sur cinq points : analyser l’offre,
               vous renseigner sur l’entreprise, construire votre présentation et vos exemples, vous entraîner
               à voix haute, puis régler la logistique et vos questions. Comptez quelques heures réparties sur
-              plusieurs jours plutôt qu’une seule soirée.
+              plusieurs jours plutôt qu’une seule soirée.
             </p>
+
+            <section className="enbref" aria-labelledby="en-bref">
+              <h2 id="en-bref" className="enbref__title">En bref</h2>
+              <ul>
+                <li>Préparer un entretien, c’est : analyser l’offre, préparer 3 exemples concrets, s’entraîner à voix haute, préparer ses questions et sa fourchette de rémunération.</li>
+                <li>Structurez chaque exemple avec la méthode « Situation, action, résultat ».</li>
+                <li>Un recrutement de cadre dure en moyenne 12 semaines, et 69 % des entreprises commencent par une présélection téléphonique <Src id="source-simulateur">(source : Apec)</Src>.</li>
+                <li>Pour le salaire, partez d’un repère de marché : 54 k€ brut annuel médian pour les cadres du privé en juin 2026 <Src id="source-remuneration">(source : Apec)</Src>.</li>
+              </ul>
+            </section>
+
+            <section aria-labelledby="contexte">
+              <h2 id="contexte">Le contexte</h2>
+              <p>
+                Fin 2026, seules 6 % des entreprises prévoient de recruter des cadres, un point bas. Dans le même
+                temps, 14 % des cadres envisagent de changer d’entreprise dans les trois mois, et 38 % dans
+                l’année <Src id="source-barometre-t4">(source : Baromètre Apec, 4ᵉ trimestre 2026)</Src>.
+              </p>
+              <p>
+                Moins de recrutements, plus de candidats : chaque entretien compte. Une bonne préparation fait
+                la différence.
+              </p>
+            </section>
 
             <nav className="toc" aria-labelledby="sommaire">
               <h2 id="sommaire" className="toc__title">Sommaire</h2>
               <ol>
                 {TOC.map((t) => (
                   <li key={t.id}>
-                    <Link to="/cas-01-seo" anchor={t.id}>{t.label}</Link>
+                    <Link to={ARTICLE_PATH} anchor={t.id}>{t.label}</Link>
                   </li>
                 ))}
               </ol>
@@ -100,43 +158,74 @@ export function Case3({ path }: { path: string }) {
               <p>
                 Repérez les trois attentes qui reviennent le plus dans l’annonce (compétences, contexte,
                 résultats attendus). Pour chacune, notez une expérience qui y répond. C’est la base de tout
-                l’entretien. Les fiches métiers cadres de l’Apec aident à situer les missions et les compétences
-                habituellement attendues pour ce type de poste.
+                l’entretien. Les <Svc id="fiches-metiers">Fiches métiers cadres</Svc> aident à situer les missions
+                et les compétences habituellement attendues pour ce type de poste.
               </p>
 
               <h3>2. Comprendre l’entreprise</h3>
               <p>
-                Site, actualités récentes, rapports publics, fiches entreprises, profils des futurs collègues :
+                Site, actualités récentes, rapports publics, fiches entreprises, profils des futurs collègues :
                 cherchez ce qui explique pourquoi le poste est ouvert maintenant. Une question informée sur ce contexte vaut
-                mieux qu’une liste de chiffres récités.
+                mieux qu’une liste de chiffres récités.
               </p>
 
               <h3>3. Préparer votre présentation et vos exemples</h3>
               <p>
-                Construisez une présentation de deux minutes et trois exemples concrets, structurés en
-                situation, action, résultat. Avec un parcours long, choisissez les réalisations les plus
-                proches du poste plutôt que de tout raconter.
+                Construisez une présentation de deux minutes et trois exemples concrets. Pour chacun, appliquez
+                la méthode « Situation, action, résultat » :
+              </p>
+              <ul className="sar">
+                <li><strong>Situation :</strong> le contexte et l’enjeu, en une ou deux phrases.</li>
+                <li><strong>Action :</strong> ce que vous avez fait personnellement, et comment.</li>
+                <li><strong>Résultat :</strong> ce que cela a changé, mesuré si possible, et ce que vous en avez retenu.</li>
+              </ul>
+              <p>
+                Avec un parcours long, choisissez les réalisations les plus proches du poste plutôt que de
+                tout raconter.
               </p>
 
               <h3>4. S’entraîner à voix haute</h3>
               <p>
                 Formuler ses réponses à voix haute révèle ce qui reste flou. Vous pouvez commencer seul avec
-                le <Link to="/service/simulateur-entretien?from=cas-3">simulateur d’entretien en ligne, pour vous entraîner en autonomie</Link>.
+                le <Svc id="simulateur-entretien">simulateur d’entretien en ligne, pour vous entraîner en autonomie</Svc>.
                 Si vous préférez apprendre avec d’autres, l’
-                <Link to="/service/atelier-entretiens?from=cas-3">atelier collectif « Réussir vos entretiens de recrutement »</Link>{' '}
-                passe en revue les différents types d’entretien.
+                <Svc id="atelier-entretiens">atelier collectif « Réussir vos entretiens de recrutement »</Svc>{' '}
+                passe en revue les différents types d’entretien.
               </p>
               <p className="callout">
-                <strong>Votre entretien est déjà fixé ?</strong>{' '}
-                <Link to="/service/entretien-programme?from=cas-3">Répétez-le lors d’une simulation individuelle avec un{'\u00a0'}consultant</Link>,
-                adaptée au poste visé.
+                <strong>Votre entretien est déjà fixé ?</strong>{' '}
+                <Svc id="entretien-programme">Répétez-le lors d’une simulation individuelle avec un consultant</Svc>,
+                adaptée au poste visé.
               </p>
 
               <h3>5. Régler la logistique et vos questions</h3>
               <p>
                 Vérifiez le format (sur place, visio, téléphone), le nom de votre interlocuteur et la durée
                 prévue. Préparez deux ou trois questions sur les priorités du poste. Pensez aussi à la
-                rémunération : <Link to="/conseil/remuneration">quelques repères pour aborder le salaire sereinement</Link>.
+                rémunération : <Link to="/conseil/remuneration">quelques repères pour aborder le salaire sereinement</Link>.
+              </p>
+            </section>
+
+            <section aria-labelledby="types">
+              <h2 id="types" tabIndex={-1}>Les différents types d’entretien</h2>
+              <p>
+                Un même recrutement enchaîne souvent plusieurs formats. Chacun se prépare un peu différemment.
+              </p>
+              <div className="table-scroll table-scroll--plain">
+                <table className="data-table article-table">
+                  <caption className="visually-hidden">Types d’entretien et conseil pour chacun</caption>
+                  <thead><tr><th scope="col">Format</th><th scope="col">Notre conseil</th></tr></thead>
+                  <tbody>
+                    {TYPES.map(([t, c]) => (
+                      <tr key={t}><th scope="row">{t}</th><td>{c}</td></tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                Pour vous exercer à chacun de ces formats, l’atelier{' '}
+                <Svc id="atelier-entretiens">Réussir vos entretiens de recrutement</Svc>{' '}
+                les passe en revue en groupe.
               </p>
             </section>
 
@@ -145,12 +234,12 @@ export function Case3({ path }: { path: string }) {
               <dl className="qa">
                 {QUESTIONS.map((x) => (
                   <div key={x.q} className="qa__item">
-                    <dt>« {x.q} »</dt>
+                    <dt>« {x.q} »</dt>
                     <dd>
                       {x.a}
                       {x.link && (
                         <>
-                          {' '}<Link to="/conseil/remuneration">Voir comment préparer votre fourchette</Link>. Pour
+                          {' '}<Link to={ARTICLE_PATH} anchor="remuneration">Voir nos repères de rémunération</Link>. Pour
                           traduire un montant brut en net, utilisez le{' '}
                           <a href={URSSAF_BRUT_NET} target="_blank" rel="noopener noreferrer">
                             convertisseur salaire brut / net de l’Urssaf<span className="visually-hidden"> (site externe, nouvel onglet)</span>
@@ -162,6 +251,60 @@ export function Case3({ path }: { path: string }) {
                   </div>
                 ))}
               </dl>
+            </section>
+
+            <section aria-labelledby="remuneration">
+              <h2 id="remuneration" tabIndex={-1}>Parler rémunération</h2>
+              <ul className="facts">
+                <li>
+                  <strong>Un repère de marché.</strong> En juin 2026, la rémunération annuelle brute médiane des
+                  cadres du privé est de 54 k€ (fixe + variable), dont 52 k€ de fixe. Huit cadres sur dix
+                  perçoivent entre 38 k€ et 93 k€ <Src id="source-remuneration">(source : Baromètre 2026 de la rémunération des cadres)</Src>.
+                  Ce repère se précise ensuite selon le poste, la région et l’expérience, avec le{' '}
+                  <Svc id="simulateur-salaire">Simulateur de salaire cadre</Svc>.
+                </li>
+                <li>
+                  <strong>Premier réflexe : regarder l’offre.</strong> 68 % des offres d’emploi cadres sur apec.fr
+                  affichent un salaire <Src id="source-remuneration">(source : Apec)</Src>.
+                </li>
+                <li>
+                  <strong>Un moment légitime pour en parler.</strong> 61 % des cadres ayant changé d’entreprise sans
+                  passer par le chômage ont été augmentés <Src id="source-remuneration">(source : Apec)</Src>.
+                </li>
+              </ul>
+              <p>
+                Pour préparer vos prétentions et vous exercer à les formuler, l’atelier{' '}
+                <Svc id="atelier-remuneration">Parler rémunération en entretiens</Svc> vous accompagne. Voir aussi{' '}
+                <Link to="/conseil/remuneration">trois repères pour aborder le salaire en entretien</Link>.
+              </p>
+            </section>
+
+            <section aria-labelledby="questions-recruteur">
+              <h2 id="questions-recruteur" tabIndex={-1}>Les questions à poser au recruteur</h2>
+              <p>
+                Les cadres attendent des processus de recrutement plus resserrés, un déroulé plus lisible et des
+                informations plus pertinentes sur le poste <Src id="source-attentes">(source : Apec, 2024)</Src>.
+                Vos questions sont l’occasion d’obtenir ces informations :
+              </p>
+              <ul>
+                <li>Quelles sont les priorités du poste pour les six premiers mois ?</li>
+                <li>Comment l’équipe est-elle organisée, et avec qui travaillerai-je au quotidien ?</li>
+                <li>Comment la réussite sera-t-elle mesurée ?</li>
+                <li>Quelles sont les prochaines étapes du recrutement, et dans quels délais ?</li>
+              </ul>
+              <p>
+                Pour formuler les questions qui comptent pour vous, à partir de vos attentes sur le travail,
+                utilisez <Svc id="odiapazon">Odiapazon</Svc>.
+              </p>
+            </section>
+
+            <section aria-labelledby="apres">
+              <h2 id="apres" tabIndex={-1}>Après l’entretien</h2>
+              <ul>
+                <li><strong>Remercier.</strong> Un court message le jour même ou le lendemain, qui rappelle un point fort de l’échange.</li>
+                <li><strong>Relancer au bon moment.</strong> Attendez la date annoncée par le recruteur, puis relancez une fois, poliment, si elle est dépassée.</li>
+                <li><strong>Garder le rythme en tête.</strong> Un recrutement de cadre dure en moyenne 12 semaines <Src id="source-simulateur">(source : Apec)</Src> : continuez vos autres démarches en parallèle.</li>
+              </ul>
             </section>
 
             <section aria-labelledby="checklist">
@@ -180,8 +323,45 @@ export function Case3({ path }: { path: string }) {
               </p>
             </section>
 
+            <section aria-labelledby="faq">
+              <h2 id="faq" tabIndex={-1}>Questions fréquentes</h2>
+              <div className="faq">
+                {FAQ.map((f) => (
+                  <div key={f.q} className="faq__item">
+                    <h3 className="faq__q">{f.q}</h3>
+                    <p className="faq__a">
+                      {f.a.map((seg, i) => typeof seg === 'string'
+                        ? <span key={i}>{seg}</span>
+                        : <Link key={i} to={seg.to} anchor={seg.anchor}>{seg.label}</Link>)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
             <SolutionsCards />
 
+            <section className="sources" aria-labelledby="sources">
+              <h2 id="sources" tabIndex={-1}>Sources</h2>
+              <ol className="sources__list">
+                {SOURCES.map((s) => (
+                  <li key={s.id} id={s.id} tabIndex={-1}>
+                    <p className="sources__ref">
+                      {s.url ? (
+                        <a href={s.url} target="_blank" rel="noopener noreferrer">
+                          {s.publisher}, « {s.label} »<span className="visually-hidden"> (site externe, nouvel onglet)</span>
+                        </a>
+                      ) : (
+                        <>{s.publisher}, « {s.label} »</>
+                      )}
+                      {s.url && <> <External size={14} /></>}, {s.date}.
+                    </p>
+                    <p className="sources__detail"><strong>Méthodologie :</strong> {s.method}</p>
+                    <p className="sources__detail"><strong>Repris dans l’article :</strong> {s.cites}</p>
+                  </li>
+                ))}
+              </ol>
+            </section>
           </article>
 
           <aside className="sidebar" aria-label="Pour aller plus loin">
@@ -190,9 +370,21 @@ export function Case3({ path }: { path: string }) {
             <SideArticleCard
               to="/conseil/remuneration"
               photo={PHOTOS.conversation}
-              title="Aborder la rémunération en entretien : trois repères"
+              title="Aborder la rémunération en entretien : trois repères"
               date="19/11/2026"
               rubric="Repères"
+            />
+            <SideArticleCard
+              photo={PHOTOS.posteDeTravail}
+              title="Entretien en visio : les bons réflexes"
+              date="12/11/2026"
+              rubric="Conseils"
+            />
+            <SideArticleCard
+              photo={PHOTOS.relectureEcran}
+              title="Après l’entretien : comment relancer un recruteur"
+              date="05/11/2026"
+              rubric="Conseils"
             />
           </aside>
         </div>
@@ -202,11 +394,32 @@ export function Case3({ path }: { path: string }) {
   )
 }
 
-const SEO_TITLE = 'Comment préparer un entretien de recrutement ? 5 étapes'
-const SEO_DESC =
-  'Analyser l’offre, préparer vos exemples, vous entraîner : la méthode en 5 étapes, des exemples de questions et une checklist pour la veille de l’entretien.'
+/** Métadonnées et données structurées de l'article (titre, description, JSON-LD), retirées en quittant la page. */
+function useArticleSeo() {
+  useEffect(() => {
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+    const previous = meta?.content
+    if (meta) meta.content = SEO_DESC
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.id = 'jsonld-article'
+    script.textContent = JSON.stringify(articleJsonLd())
+    document.head.appendChild(script)
+    return () => {
+      if (meta && previous !== undefined) meta.content = previous
+      script.remove()
+    }
+  }, [])
+}
+
 
 const LINK_MAP = [
+  ['Conseil — étape 1', 'Fiches métiers cadres', '« Fiches métiers cadres »', 'Situer le poste'],
+  ['Conseil — types d’entretien', 'Atelier « Réussir vos entretiens »', '« Réussir vos entretiens de recrutement »', 'S’exercer à chaque format'],
+  ['Conseil — Parler rémunération', 'Simulateur de salaire cadre', '« Simulateur de salaire cadre »', 'Affiner le repère médian'],
+  ['Conseil — Parler rémunération', 'Atelier « Parler rémunération en entretiens »', '« Parler rémunération en entretiens »', 'Préparer ses prétentions'],
+  ['Conseil — questions au recruteur', 'Odiapazon', '« Odiapazon »', 'Formuler ses questions'],
+  ['Conseil — questions fréquentes', 'Simulateur de salaire cadre, Odiapazon, Nos services', 'Noms des services', 'Réponses courtes'],
   ['Conseil — préparer un entretien', 'Simulateur d’entretien', '« simulateur d’entretien en ligne, pour vous entraîner en autonomie »', 'S’entraîner seul'],
   ['Conseil — préparer un entretien', 'Atelier « Réussir vos entretiens »', '« atelier collectif Réussir vos entretiens de recrutement »', 'Se préparer en groupe'],
   ['Conseil — préparer un entretien', 'Entretien programmé (simulation)', '« Répétez-le lors d’une simulation individuelle avec un consultant »', 'Entretien déjà fixé'],
@@ -225,11 +438,21 @@ export function Case3Coulisses() {
   return (
     <>
       <h3 className="coulisses__case">Cas 01 — De la recherche en ligne aux services</h3>
+      <p className="cr-lead">
+        Un contenu daté, sourcé et structuré (réponse directe, questions fréquentes, données structurées), pour être
+        utile aux lecteurs et repris par les moteurs comme par les{'\u00a0'}IA.
+      </p>
       <CrBlock title="Statut de la page">
         <p>
-          Page conseil originale, rédigée pour ce portfolio, sans statistique citée. Les services mentionnés renvoient aux
-          fiches du prototype, rédigées à partir des pages d’apec.fr. La page « rémunération » est un contenu
-          connexe court, utile au{'\u00a0'}lecteur.
+          Page conseil originale, rédigée pour ce portfolio. Seuls des chiffres publiés par l’Apec sont cités, chacun
+          relié à sa source (section « Sources » en fin d’article). Rédaction et relecture sont attribuées à des
+          personnages fictifs. Les services mentionnés renvoient aux fiches du prototype, rédigées à partir des pages
+          d’apec.fr. La page « rémunération » est un contenu connexe court, utile au{'\u00a0'}lecteur.
+        </p>
+        <p>
+          Données structurées (JSON-LD)<span>{'\u00a0'}</span>: Article (dates de publication et de mise à jour), fil
+          d’Ariane et FAQPage, avec les mêmes questions-réponses que la section visible. La page reste non indexée
+          (portfolio)<span>{'\u00a0'}</span>; sur apec.fr, l’éditeur serait{'\u00a0'}l’Apec.
         </p>
       </CrBlock>
       <CrBlock title="Services proposés : ordre et provenance">
@@ -330,11 +553,15 @@ export function Case3Coulisses() {
         <ul className="outline">
           <li>H1 — Comment préparer un entretien de recrutement ?
             <ul>
-              <li>Introduction (réponse directe) · Sommaire</li>
-              <li>H2 — Les 5 étapes (5 × H3)</li>
+              <li>Dates, rédaction, relecture, temps de lecture · Introduction (réponse directe)</li>
+              <li>H2 — En bref (4 puces) · H2 — Le contexte · Sommaire</li>
+              <li>H2 — Les 5 étapes (5 × H3, méthode « Situation, action, résultat »)</li>
+              <li>H2 — Les différents types d’entretien (tableau)</li>
               <li>H2 — Exemples de questions</li>
-              <li>H2 — Checklist</li>
+              <li>H2 — Parler rémunération · H2 — Les questions à poser au recruteur · H2 — Après l’entretien</li>
+              <li>H2 — Checklist · H2 — Questions fréquentes (6 × H3)</li>
               <li>H2 — L’Apec vous accompagne pour préparer vos entretiens (3 × H3, un par besoin)</li>
+              <li>H2 — Sources (référence, date, méthodologie)</li>
             </ul>
           </li>
         </ul>

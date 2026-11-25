@@ -28,8 +28,8 @@ export function ArticleHero({ photo, rubric, tagSide = 'left' }: { photo: Photo;
   )
 }
 
-/** « Publié le … » + bouton « Partager » (partage natif ou copie du lien). */
-export function ArticleMeta({ date, title }: { date: string; title: string }) {
+/** « Publié le … » (ou « Mis à jour le … ») + bouton « Partager » (partage natif ou copie du lien). */
+export function ArticleMeta({ date, title, label = 'Publié le', dateTime }: { date: string; title: string; label?: string; dateTime?: string }) {
   const [status, setStatus] = useState('')
   const share = async () => {
     const url = window.location.href
@@ -47,7 +47,7 @@ export function ArticleMeta({ date, title }: { date: string; title: string }) {
   }
   return (
     <div className="a-meta">
-      <p className="a-meta__date">Publié le {date}</p>
+      <p className="a-meta__date">{label} {dateTime ? <time dateTime={dateTime}>{date}</time> : date}</p>
       <button type="button" className="a-share" onClick={share}>
         <span className="a-share__label">Partager</span>
         <span className="a-share__icon" aria-hidden="true"><Share size={20} /></span>
@@ -58,7 +58,7 @@ export function ArticleMeta({ date, title }: { date: string; title: string }) {
 }
 
 /** Carte article de la colonne « Sur le même sujet ». */
-export function SideArticleCard({ to, photo, title, date, rubric }: { to: string; photo: Photo; title: string; date: string; rubric: string }) {
+export function SideArticleCard({ to, photo, title, date, rubric }: { to?: string; photo: Photo; title: string; date: string; rubric: string }) {
   return (
     <article className="a-card">
       <div className="a-card__visual">
@@ -66,11 +66,11 @@ export function SideArticleCard({ to, photo, title, date, rubric }: { to: string
         <RubricTag label={rubric} size="sm" />
       </div>
       <h3 className="a-card__title">
-        <Link to={to} className="a-card__link">{title}</Link>
+        {to ? <Link to={to} className="a-card__link">{title}</Link> : title}
       </h3>
       <p className="a-card__meta">
         <span>Article · Publié le {date}</span>
-        <span className="a-card__more" aria-hidden="true">Voir <ArrowRight size={18} /></span>
+        {to && <span className="a-card__more" aria-hidden="true">Voir <ArrowRight size={18} /></span>}
       </p>
     </article>
   )

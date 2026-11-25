@@ -63,7 +63,7 @@ function HumanCard({ s, detailed, headingLevel }: { s: Solution; detailed: boole
           <p className="acard__text">{nb(s.description)}</p>
           {s.primary && (
             <Link to={s.primary.href} className="btn btn--primary acard__cta" onClick={click('action principale')}>
-              {s.primary.label}<span className="visually-hidden"> : {s.official}</span>
+              {s.primary.label}<span className="visually-hidden">{'\u00a0'}: {nb(s.official)}</span>
             </Link>
           )}
         </div>
@@ -81,19 +81,19 @@ function HumanCard({ s, detailed, headingLevel }: { s: Solution; detailed: boole
         {detailed && s.points && (
           <ul className="plus-list hcard__points">
             {s.points.map(([b, t]) => (
-              <li key={b}><Plus size={18} className="plus" /> <span><strong>{b} :</strong> {t}</span></li>
+              <li key={b}><Plus size={18} className="plus" /> <span><strong>{b}{'\u00a0'}:</strong> {t}</span></li>
             ))}
           </ul>
         )}
         <div className="hcard__actions">
           {s.design === 'entretien' && s.secondary && (
             <Link to={s.secondary.href} className="btn btn--outline hcard__more" onClick={click('en savoir plus')}>
-              {s.secondary.label}<span className="visually-hidden"> : {s.official}</span>
+              {s.secondary.label}<span className="visually-hidden">{'\u00a0'}: {nb(s.official)}</span>
             </Link>
           )}
           {s.primary && (
             <Link to={s.primary.href} className="btn btn--primary" onClick={click('action principale')}>
-              {s.primary.label}<span className="visually-hidden"> : {s.official}</span>
+              {s.primary.label}<span className="visually-hidden">{'\u00a0'}: {nb(s.official)}</span>
             </Link>
           )}
         </div>

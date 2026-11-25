@@ -59,7 +59,7 @@ export interface Solution {
 export const CAS3_SOLUTIONS: Solution[] = [
   {
     id: 'consultant',
-    title: 'Accompagnement personnalisé',
+    title: 'Accompagnement personnalisé',
     serviceId: 'entretien-programme',
     official: 'Entretien programmé : entrainez vous avec un consultant !',
     description: 'Préparez-vous sereinement pour votre entretien d’embauche avec une simulation sur-mesure et le feedback d’un professionnel !',
