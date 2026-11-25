@@ -57,7 +57,7 @@ npm run build
 npm run preview
 ```
 
-`npm run build` produit un dossier `dist/` statique. Le routage par hash (`#/cas-02-ab-test`) et la base relative (`base: './'`) permettent d’ouvrir le site sur n’importe quel hébergement statique, y compris dans un sous-dossier, sans règle de réécriture. Aucun déploiement n’a été effectué.
+`npm run build` produit un dossier `dist/` statique. Le routage par hash (`#/cas-02-ab-test`) évite toute règle de réécriture ; la base Vite est `/portfolio-apec-v2/`, l’adresse GitHub Pages de cette version. Aucun déploiement n’a été effectué.
 
 ## Publication sur GitHub Pages
 
@@ -65,7 +65,7 @@ Le fichier `.github/workflows/deploy-pages.yml` construit et publie le site à c
 
 Une seule fois, dans le dépôt : **Settings → Pages → Build and deployment → Source : GitHub Actions**. Sur un compte gratuit, le dépôt doit être public.
 
-Adresse : `https://ccamilleri-ux.github.io/portfolio-apec/`
+Adresse : `https://ccamilleri-ux.github.io/portfolio-apec-v2/` (version 2). La version 1, présentée en entretien, reste en ligne sur `https://ccamilleri-ux.github.io/portfolio-apec/` : voir `ITERATIONS.md`.
 
 Le `noindex` est porté par la balise meta de chaque page. Le `robots.txt` du dossier n’a pas d’effet sous un sous-chemin `github.io` : c’est la balise meta qui empêche l’indexation.
 

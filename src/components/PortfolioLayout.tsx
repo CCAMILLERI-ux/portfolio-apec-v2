@@ -31,7 +31,7 @@ export function PortfolioLayout({ children, isHome = false }: { children: ReactN
         <div className="pf-container">
           <p className="pf-footer__line">
             Portfolio de candidature indépendant, sans affiliation à{'\u00a0'}l’Apec ·{' '}
-            <Link to="/design-system" anchor="sources">Sources et mentions</Link>
+            <Link to="/design-system" anchor="sources">Sources et mentions</Link> · Version 2
           </p>
         </div>
       </footer>

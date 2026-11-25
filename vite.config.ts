@@ -1,9 +1,9 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
-// base relative + routage par hash : le build s'ouvre sur n'importe quel
-// hébergement statique (sous-dossier compris) sans règle de réécriture.
+// Version 2, publiée sur https://ccamilleri-ux.github.io/portfolio-apec-v2/
+// Routage par hash : aucune règle de réécriture nécessaire.
 export default defineConfig({
-  base: './',
+  base: '/portfolio-apec-v2/',
   plugins: [react()],
 })
