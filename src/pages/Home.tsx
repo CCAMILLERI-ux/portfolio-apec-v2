@@ -35,7 +35,7 @@ const WORKS: {
     to: '/cas-02-ab-test',
     mission: 'Performance &\u00a0conversion',
     title: 'Présenter l’offre par situation',
-    text: 'Les services par situation, une entrée « Nos services » dans l’en-tête et la prise de rendez-vous en quelques clics.',
+    text: 'Trois présentations des services par situation, comparées par A/B test, une entrée « Nos services » dans l’en‑tête et la prise de rendez-vous en quelques clics.',
     cta: 'Explorer la démo',
     color: 'yellow',
     scene: 'boussole',
