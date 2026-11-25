@@ -99,11 +99,13 @@ export function ProtoLayout({ path, caseLabel, children, coulisses, coulissesMin
       </a>
 
       <div className="demo-bar" ref={barRef} role="region" aria-label="Commandes de la démo (hors maquette)">
-        <div className="demo-bar__inner">
-          <Link to="/" className="demo-bar__btn demo-bar__btn--back">
-            <ArrowLeft size={16} /> <span className="visually-hidden">Retour au </span>Portfolio
-          </Link>
-          <span className="demo-bar__case">{caseLabel}</span>
+        <div className={`demo-bar__inner${barControl ? ' demo-bar__inner--control' : ''}`}>
+          <span className="demo-bar__left">
+            <Link to="/" className="demo-bar__btn demo-bar__btn--back">
+              <ArrowLeft size={16} /> <span className="visually-hidden">Retour au </span>Portfolio
+            </Link>
+            <span className="demo-bar__case">{caseLabel}</span>
+          </span>
           {barControl}
           <span className="demo-bar__actions">
             <button
