@@ -3,8 +3,8 @@ import { Link } from '../lib/router'
 import { EventLog } from './EventLog'
 
 /** Pied de page « Coulisses du prototype » : seul endroit où le prototype s'explique. */
-/** Dernière phrase de chaque « Comprendre ce cas » : une proposition, à affiner avec les équipes qui décident. */
-export const BINOME = 'Une piste à affiner en binôme avec les chefs de produit concernés.'
+/** Dernière phrase de chaque « Comprendre ce cas » : une proposition, à affiner avec les équipes concernées. */
+export const BINOME = 'Une piste à affiner avec les chefs de produit et le webanalyste.'
 
 export function Coulisses({ events, hidden, minimal = false, children }: { events: string[]; hidden?: boolean; minimal?: boolean; children: ReactNode }) {
   return (

@@ -18,7 +18,6 @@ const N = ' '
 const STEPS = [
   { title: 'Design system', text: `Partir des composants, couleurs et règles existants pour rester cohérent avec le${N}site.` },
   { title: 'Maquettes Figma des variantes', text: `Décliner rapidement les variantes à comparer à partir des composants du design${N}system.` },
-  { title: 'Prototype', text: `Rendre les variantes cliquables pour les faire valider par les équipes et les${N}utilisateurs.` },
   { title: 'A/B test et mesure', text: `Tester les variantes auprès d’un vrai public et mesurer l’effet sur les${N}conversions.` },
   { title: 'Déploiement dans le CMS', text: `Intégrer et mettre en ligne la variante retenue, en cohérence avec le${N}site.` },
 ]

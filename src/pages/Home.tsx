@@ -23,8 +23,8 @@ const WORKS: {
     n: '01',
     to: '/cas-01-seo',
     mission: 'Acquisition',
-    title: 'De la recherche Google aux services',
-    text: 'Un article SEO / GEO qui oriente vers les outils et accompagnements adaptés.',
+    title: 'De la recherche en ligne aux services',
+    text: 'Être trouvé sur les moteurs de recherche et cité par les IA, puis guider vers le bon service.',
     cta: 'Explorer la démo',
     color: 'navy',
     scene: 'conseil',
@@ -45,8 +45,8 @@ const WORKS: {
     n: '03',
     to: '/cas-03-inscription',
     mission: 'Performance &\u00a0conversion · Animation',
-    title: 'Inscription accompagnée',
-    text: 'Un tunnel guidé, de la création de compte au premier service utilisé.',
+    title: 'Un parcours guidé vers les services',
+    text: 'Trois questions pour orienter un nouvel inscrit vers les services faits pour lui, et l’aider à en utiliser un une première fois.',
     cta: 'Explorer la démo',
     color: 'blue',
     scene: 'echange',
@@ -71,8 +71,8 @@ const RESULTS = [
   { figure: '× 2', text: 'conversion du tunnel de création de compte d’un espace client B2B, grâce à l’UX et aux A/B tests' },
   { figure: '70 %', text: 'des comptes clients créés en ligne via cet espace\u00a0client' },
   { figure: '3,6 M€', text: 'de chiffre d’affaires digital généré par cet espace client' },
-  { figure: '17 000', text: 'contacts par an générés par la refonte d’un moteur de recherche B2B, devenu un levier de génération de leads' },
   { figure: '7 sites', text: 'et plus de 25 services digitaux pilotés avec la DSI et 6 agences' },
+  { figure: '17 000', text: 'contacts B2B par an, grâce à la refonte d’un moteur de recherche (Algolia)' },
 ]
 
 export function Home() {
@@ -117,7 +117,7 @@ export function Home() {
           Cheffe de projet digital et Product Owner, je pilote des sites et services web de bout en bout{' '}: roadmap
           d’animation, SEO / GEO, parcours utilisateurs, A/B tests et déploiement dans le CMS. Je coordonne les métiers, la DSI
           et les agences, avec un fil rouge{'\u00a0'}: améliorer l’expérience utilisateur, mesures à l’appui. J’aime proposer des pistes, les
-          tester et les faire évoluer en binôme avec les équipes produit, éditoriales et{'\u00a0'}techniques.
+          tester et les faire évoluer en binôme avec les équipes produit, du marketing relationnel, de la DSI et de la{'\u00a0'}communication.
         </p>
         <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="pf-about__btn">
           Voir mon profil LinkedIn<span className="visually-hidden"> (nouvel onglet)</span> <ArrowRight size={16} />

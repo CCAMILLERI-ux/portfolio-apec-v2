@@ -22,8 +22,8 @@ export function backFor(from: string | null): BackTarget {
 
 /** Libellé du cas pour la barre de démo, selon la page d'origine. */
 export function caseLabelFor(from: string): string {
-  if (from.startsWith('cas-3') || from === 'cas-1-seo' || from === 'remuneration') return 'Cas 01 · De la recherche Google aux services'
-  if (from === 'etapes' || from === 'espace') return 'Cas 03 · Inscription accompagnée'
+  if (from.startsWith('cas-3') || from === 'cas-1-seo' || from === 'remuneration') return 'Cas 01 · De la recherche en ligne aux services'
+  if (from === 'etapes' || from === 'espace') return 'Cas 03 · Un parcours guidé vers les services'
   if (from === 'plan-seo') return 'SEO / GEO\u00a0: quelques pistes'
   return 'Cas 02 · Présenter l’offre par situation'
 }
