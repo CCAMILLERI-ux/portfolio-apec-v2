@@ -365,17 +365,20 @@ export function Case3({ path }: { path: string }) {
                 {SOURCES.map((s) => (
                   <li key={s.id} id={s.id} tabIndex={-1}>
                     <p className="sources__ref">
+                      Apec,{' '}
                       {s.url ? (
                         <a href={s.url} target="_blank" rel="noopener noreferrer">
-                          {s.publisher}, « {s.label} »<span className="visually-hidden"> (site externe, nouvel onglet)</span>
+                          <cite>{s.label}</cite>
+                          <span className="visually-hidden"> (site externe, nouvel onglet)</span>
                         </a>
                       ) : (
-                        <>{s.publisher}, « {s.label} »</>
+                        <cite>{s.label}</cite>
                       )}
-                      {s.url && <> <External size={14} /></>}, {s.date}.
+                      <span className="nowrap">
+                        {s.url && <>{'\u00a0'}<External size={14} /></>}
+                        {s.refDate ? <>, {s.refDate}</> : null}.
+                      </span>
                     </p>
-                    <p className="sources__detail"><strong>Méthodologie :</strong> {s.method}</p>
-                    <p className="sources__detail"><strong>Repris dans l’article :</strong> {s.cites}</p>
                   </li>
                 ))}
               </ol>

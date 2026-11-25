@@ -2045,7 +2045,8 @@ a.esp-row:hover .esp-row__title > span:first-child, button.esp-row:hover .esp-ro
 .sources__list { padding-left: 1.2em; font-size: 0.9375rem; }
 .sources__list li { margin-bottom: var(--s2); }
 .sources__list li:focus { outline: 3px solid var(--brand-blue); outline-offset: 4px; }
-.sources__ref { margin: 0 0 4px; font-weight: 600; }
+.sources__ref { margin: 0; text-wrap: pretty; }
+.sources__ref cite { font-style: italic; }
 .sources__detail { margin: 0 0 2px; color: var(--text-secondary-a11y); text-wrap: pretty; }
 .cr-lead { font-size: 1.0625rem; font-weight: 600; margin: 0 0 var(--s3); max-width: 70ch; text-wrap: pretty; }
 
