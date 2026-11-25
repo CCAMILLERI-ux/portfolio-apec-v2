@@ -22,6 +22,8 @@ export interface Source {
   label: string
   publisher: string
   date: string
+  /** Date affichée dans la liste des sources (mois et année quand ils sont connus). */
+  refDate?: string
   method: string
   url?: string
   /** Chiffres ou constats cités dans l'article. */
@@ -31,18 +33,20 @@ export interface Source {
 export const SOURCES: Source[] = [
   {
     id: 'source-simulateur',
-    label: 'Simulateur : s’entraîner à l’entretien de recrutement',
+    label: 'Simulateur : s’entraîner à l’entretien de recrutement',
     publisher: 'Apec, apec.fr',
     date: 'page consultée en novembre 2026',
+    refDate: 'novembre 2026',
     method: 'Page de présentation de l’outil.',
     url: 'https://www.apec.fr/tous-nos-outils/fiche-outils/simulateur--sentrainer-a-lentretien-de-recrutement.html',
     cites: '69 % des entreprises commencent par une présélection téléphonique ; 12 semaines de durée moyenne d’un recrutement de cadre.',
   },
   {
     id: 'source-barometre-t4',
-    label: 'Baromètre Apec – 4e trimestre 2026',
+    label: 'Baromètre Apec – 4ᵉ trimestre 2026',
     publisher: 'Apec',
     date: 'novembre 2026',
+    refDate: 'novembre 2026',
     method: 'Enquêtes réalisées du 1ᵉʳ au 15 septembre 2026 auprès de 2 000 cadres et 1 000 entreprises.',
     url: 'https://corporate.apec.fr/home/nos-etudes/toutes-nos-etudes/barometre-apec-4e-trimestre-2026.html',
     cites: '6 % des entreprises prévoient de recruter des cadres au 4ᵉ trimestre 2026 ; 14 % des cadres envisagent de changer d’entreprise dans les trois mois, 38 % dans l’année.',
@@ -52,6 +56,7 @@ export const SOURCES: Source[] = [
     label: 'Baromètre 2026 de la rémunération des cadres',
     publisher: 'Apec',
     date: 'novembre 2026',
+    refDate: 'novembre 2026',
     method: 'Enquête de juin 2026 auprès de 19 000 cadres du secteur privé.',
     url: 'https://corporate.apec.fr/home/nos-etudes/toutes-nos-etudes/barometre-2026-de-la-remuneration-des-cadres.html',
     cites: 'Rémunération annuelle brute médiane de 54 k€ (fixe + variable), dont 52 k€ de fixe ; huit cadres sur dix entre 38 k€ et 93 k€ ; 68 % des offres cadres sur apec.fr avec un salaire affiché ; 61 % des cadres ayant changé d’entreprise sans passer par le chômage augmentés.',
@@ -61,6 +66,7 @@ export const SOURCES: Source[] = [
     label: 'Attentes des cadres en matière de recrutement',
     publisher: 'Apec',
     date: '2024',
+    refDate: '2024',
     method: 'Étude Apec ; aucun chiffre n’en est repris dans l’article.',
     cites: 'Attentes des cadres : processus resserrés, déroulé plus lisible, informations plus pertinentes sur le poste.',
   },
