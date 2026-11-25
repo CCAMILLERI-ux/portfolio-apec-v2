@@ -385,7 +385,7 @@ function Piste3({ services, level = 3, meta, grouped = false, anchor = () => und
   )
 }
 
-/** « Comprendre ce cas » : texte court, sans jargon (la phrase « binôme » est ajoutée par Coulisses). */
+/** « Comprendre ce cas » : texte court, sans jargon (la phrase de fin est ajoutée par Coulisses). */
 function Case1Coulisses() {
   return (
     <div className="cr-plain">
