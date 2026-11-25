@@ -6,6 +6,8 @@ import { ArrowRight, Chat, Group, Laptop } from './Icons'
 import { Illustration, type Tone } from './Illustration'
 import { ModalityChips } from './Modalities'
 import { SERVICE_PHOTO } from '../data/photos'
+import { ATELIER_THEME } from '../data/ateliers'
+import { ThemeIcon } from './ThemeIcon'
 import { nb } from '../lib/text'
 
 export const KIND_TONE: Record<ServiceKind, Tone> = { atelier: 'yellow', individuel: 'blue', outil: 'navy' }
@@ -25,6 +27,16 @@ export function KindTag({ kind }: { kind: ServiceKind }) {
 }
 
 export function ServiceVisual({ service, children }: { service: Service; children?: ReactNode }) {
+  // Ateliers : tuile bleue et icône au trait du thème, dans le style des tuiles d'apec.fr.
+  if (service.kind === 'atelier') {
+    return (
+      <div className="svc-visual svc-visual--theme">
+        <ThemeIcon theme={ATELIER_THEME[service.id] ?? 'groupe'} className="svc-visual__icon" />
+        <KindTag kind={service.kind} />
+        {children}
+      </div>
+    )
+  }
   return (
     <div className="svc-visual">
       <Illustration name={service.illustration} tone={KIND_TONE[service.kind]} className="svc-visual__img" />

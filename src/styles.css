@@ -1991,3 +1991,10 @@ a.esp-row:hover .esp-row__title > span:first-child, button.esp-row:hover .esp-ro
   .cat-search { flex-direction: column; }
   .cat-card__actions { flex-direction: column; }
 }
+
+/* ---------- V2 : variante tuiles — ateliers sur fond bleu (#026096, tuiles d'apec.fr), icône au trait par thème ---------- */
+.svc-visual--theme { display: flex; align-items: center; justify-content: center; height: 180px; background: var(--brand-blue); }
+.theme-icon { display: block; fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.theme-icon .ti-w { stroke: #fff; }
+.theme-icon .ti-y { stroke: var(--brand-yellow); }
+.sidebar .svc-visual--theme, .pick__visual .svc-visual--theme { height: 100%; min-height: 150px; }

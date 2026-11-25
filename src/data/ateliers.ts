@@ -186,3 +186,56 @@ export function ateliersHref(atelierId?: string): string {
   const q = new URLSearchParams({ situation: situation ?? 'tous', vue: 'piste3', format: 'atelier' })
   return `/cas-02-ab-test?${q.toString()}${atelierId ? `#atelier-${atelierId}` : ''}`
 }
+
+/** Thème de chaque atelier : icône de la variante tuiles (src/components/ThemeIcon.tsx). */
+export type AtelierTheme =
+  | 'candidature' | 'entretien' | 'remuneration' | 'reseau' | 'ia' | 'marche' | 'mobilite' | 'rebond'
+  | 'experience' | 'international' | 'diplome' | 'manager' | 'competences' | 'motivation' | 'carriere'
+  | 'reconversion' | 'immersion' | 'durable' | 'attractivite' | 'integration' | 'groupe'
+
+export const ATELIER_THEME: Record<string, AtelierTheme> = {
+  // Je cherche un nouvel emploi
+  'convaincre-cv': 'candidature',
+  'atelier-entretiens': 'entretien',
+  'atelier-remuneration': 'remuneration',
+  'personal-branding': 'reseau',
+  'oser-reseau': 'reseau',
+  'atelier-iag': 'ia',
+  'explorer-marche': 'marche',
+  'changer-travail': 'mobilite',
+  'chomage-un-an': 'rebond',
+  'experience-senior': 'experience',
+  'travailler-etranger': 'international',
+  // Je prépare mon premier emploi
+  'objectif-premier-emploi': 'diplome',
+  'premier-emploi-atelier': 'diplome',
+  'jeunes-diplomes-confiance': 'diplome',
+  'remuneration-premier-emploi': 'remuneration',
+  'stage-alternance': 'diplome',
+  doctorat: 'diplome',
+  // Je souhaite évoluer dans ma carrière
+  'evolution-interne': 'mobilite',
+  'devenir-manager': 'manager',
+  competences: 'competences',
+  'remuneration-transparence': 'remuneration',
+  motivation: 'motivation',
+  'derniere-partie-carriere': 'carriere',
+  'autres-formes-emploi': 'mobilite',
+  // Je réfléchis à une reconversion
+  reconversion: 'reconversion',
+  'demission-reconversion': 'reconversion',
+  'immersion-entreprise': 'immersion',
+  'durables-candidat': 'durable',
+  // Je recrute et j'ai besoin d'aide
+  'offre-attractive': 'attractivite',
+  cvtheques: 'reseau',
+  'entretien-recrutement-webatelier': 'entretien',
+  'marque-employeur': 'attractivite',
+  'integrer-recrues': 'integration',
+  'ia-recrutements': 'ia',
+  'transparence-remunerations': 'remuneration',
+  'durables-recruteur': 'durable',
+  'experience-avenir': 'experience',
+  'entretien-parcours': 'entretien',
+  'entretien-parcours-webinaire': 'entretien',
+}
