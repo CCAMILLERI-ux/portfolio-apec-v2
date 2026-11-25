@@ -23,7 +23,7 @@ const STEPS = [
 ]
 
 const TOKENS = [
-  ['--brand-navy', '#252555', 'Texte principal, en-tête, pied de page, bandeaux'],
+  ['--brand-navy', '#252555', 'Texte principal, en‑tête, pied de page, bandeaux'],
   ['--brand-yellow', '#FFC400', 'Boutons, aplats de visuels, pictogrammes sur bleu nuit'],
   ['--brand-blue', '#026096', 'Bleu secondaire : cartes, bandeaux, liens'],
   ['--brand-blue-hover', '#024D78', 'Survol et état actif des éléments bleus'],
