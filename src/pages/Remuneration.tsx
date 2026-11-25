@@ -9,7 +9,8 @@ import { Case3Coulisses } from './Case3'
 /** Contenu connexe court, clairement identifié — pas une page de remplissage. */
 export function Remuneration({ path }: { path: string }) {
   return (
-    <ProtoLayout path={path} caseLabel="Cas 01 · De la recherche en ligne aux services" events={['service_view', 'service_cta_click']} coulisses={<Case3Coulisses />}>
+    <ProtoLayout path={path} caseLabel="Cas 01 · De la recherche en ligne aux services" events={['service_view', 'service_cta_click']} coulisses={<Case3Coulisses />}
+      coulissesEnd={<Link to="/plan-seo" className="pf-link">Pour aller plus loin{'\u00a0'}: ma démarche SEO /{'\u00a0'}GEO</Link>}>
       <PageBand
         back={{ to: '/cas-01-seo', label: 'Conseil : préparer un entretien de recrutement' }}
         title="Aborder la rémunération en entretien"

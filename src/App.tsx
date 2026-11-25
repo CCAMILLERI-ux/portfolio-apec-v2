@@ -11,7 +11,7 @@ import { NextSteps } from './pages/NextSteps'
 import { NotFound } from './pages/NotFound'
 import { Remuneration } from './pages/Remuneration'
 import { ServicePage } from './pages/ServicePage'
-import { DesignSystem } from './pages/DesignSystem'
+import { Sources } from './pages/Sources'
 import { SEO_TITLE } from './data/conseilEntretien'
 
 const TITLES: Record<string, string> = {
@@ -22,7 +22,7 @@ const TITLES: Record<string, string> = {
   '/espace': 'Cas 03 — Mon espace',
   '/cas-01-seo': SEO_TITLE,
   '/conseil/remuneration': 'Cas 01 — Aborder la rémunération',
-  '/design-system': 'Design system & prototypage',
+  '/sources': 'Sources et mentions',
   '/plan-seo': 'SEO / GEO : quelques pistes',
 }
 
@@ -32,7 +32,8 @@ const LEGACY: Record<string, string> = {
   '/cas-2/prochaines-etapes': '/cas-03-inscription/services-selectionnes',
   '/cas-03-inscription/prochaines-etapes': '/cas-03-inscription/services-selectionnes',
   '/cas-3': '/cas-01-seo',
-  '/sources': '/design-system',
+  // Ancienne page « Design system & prototypage » : redirigée vers « Sources et mentions ».
+  '/design-system': '/sources',
 }
 
 function legacyTarget(route: Route): string | null {
@@ -52,7 +53,7 @@ export default function App() {
   useEffect(() => {
     const section = path.startsWith('/service/') ? 'Fiche service' : path.startsWith('/reserver/') ? 'Réservation' : TITLES[path] ?? 'Page'
     // Le nom de la candidate n'apparaît que sur les pages du portfolio, jamais sur les écrans du prototype.
-    const portfolio = path === '/' || path === '/plan-seo' || path === '/design-system'
+    const portfolio = path === '/' || path === '/plan-seo' || path === '/sources'
     document.title = portfolio ? `${section} · Portfolio de Caroline Camilleri` : `${section} · Portfolio de candidature`
 
     const isFirst = firstLoad.current
@@ -93,7 +94,7 @@ export default function App() {
   else if (path === '/cas-03-inscription/services-selectionnes') page = <NextSteps path={path} />
   else if (path === '/cas-01-seo') page = <Case3 path={path} />
   else if (path === '/conseil/remuneration') page = <Remuneration path={path} />
-  else if (path === '/design-system') page = <DesignSystem />
+  else if (path === '/sources') page = <Sources />
   else if (path === '/plan-seo') page = <SeoPlan route={route} />
   else if (service) page = <ServicePage key={service[1]} id={service[1]} route={route} />
   else if (booking) page = <BookingPage key={booking[1]} id={booking[1]} route={route} />

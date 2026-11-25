@@ -111,6 +111,7 @@ export function Case3({ path }: { path: string }) {
       caseLabel="Cas 01 · De la recherche en ligne aux services"
       events={['service_view', 'service_cta_click', 'booking_start', 'booking_complete_demo']}
       coulisses={<Case3Coulisses />}
+      coulissesEnd={<Link to="/plan-seo" className="pf-link">Pour aller plus loin{'\u00a0'}: ma démarche SEO /{'\u00a0'}GEO</Link>}
     >
       <PageBand
         kicker="Conseils · Entretiens de recrutement"

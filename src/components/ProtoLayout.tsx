@@ -3,6 +3,7 @@ import { flushSync } from 'react-dom'
 import { Link, useRoute } from '../lib/router'
 import { resetAll } from '../lib/storage'
 import { Coulisses } from './Coulisses'
+import { PortfolioFooter } from './PortfolioFooter'
 import { RdvPanel } from './RdvPanel'
 import { ArrowLeft, ArrowRight, Calendar, Close, Grid, Info, Menu, Reset, User } from './Icons'
 
@@ -20,6 +21,8 @@ interface Props {
   coulisses: ReactNode
   /** Texte court seul (sans plan d'événements ni mode d'emploi). */
   coulissesMinimal?: boolean
+  /** Dernière ligne de « Comprendre ce cas », après la phrase de fin (ex. lien « Pour aller plus loin »). */
+  coulissesEnd?: ReactNode
   events: string[]
   /** Commande de démo (ex. choix de la variante), dans la barre du haut. */
   barControl?: ReactNode
@@ -38,7 +41,7 @@ interface Props {
  * - Au centre : la maquette utilisateur, inspirée d'apec.fr, sans aucune explication.
  * - En bas : « Coulisses du prototype » (méthode, provenance, journal).
  */
-export function ProtoLayout({ path, caseLabel, children, coulisses, coulissesMinimal = false, events, barControl, barControlBelow = false, barNotice, onReset, intro }: Props) {
+export function ProtoLayout({ path, caseLabel, children, coulisses, coulissesMinimal = false, coulissesEnd, events, barControl, barControlBelow = false, barNotice, onReset, intro }: Props) {
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState('')
 
@@ -213,7 +216,8 @@ export function ProtoLayout({ path, caseLabel, children, coulisses, coulissesMin
         </footer>
       </div>
 
-      <Coulisses events={events} hidden={!explain} minimal={coulissesMinimal}>{coulisses}</Coulisses>
+      <Coulisses events={events} hidden={!explain} minimal={coulissesMinimal} end={coulissesEnd}>{coulisses}</Coulisses>
+      <div className="pf proto-pf-footer"><PortfolioFooter /></div>
       {rdvOpen && <RdvPanel onClose={closeRdv} />}
     </div>
   )
