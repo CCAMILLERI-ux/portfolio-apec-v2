@@ -1,6 +1,7 @@
 import { ArrowRight, Calendar, Chat } from '../components/Icons'
 import { Illustration } from '../components/Illustration'
 import { ExistingCatalog } from '../components/ExistingCatalog'
+import { VariantTabs } from '../components/VariantTabs'
 import { ModalityChips } from '../components/Modalities'
 import { ProtoLayout } from '../components/ProtoLayout'
 import { ObservedServiceCard, PhotoVisual, ServiceAction, ServiceCard } from '../components/ServiceCard'
@@ -26,10 +27,10 @@ const ALL = 'tous'
 
 export function Case1({ route }: { route: Route }) {
   const rawView = route.query.get('vue')
-  /** Vue Ateliers (format=atelier) : variante photos par défaut, la plus parlante pour les ateliers. */
   const formatAtelier = route.query.get('format') === 'atelier'
+  /** Sans paramètre « vue » : la Version actuelle. Les liens qui précisent une variante (vue=…) sont inchangés. */
   const view: View =
-    rawView === 'existant' || rawView === 'piste' || rawView === 'piste2' || rawView === 'piste3' ? rawView : formatAtelier ? 'piste3' : 'piste'
+    rawView === 'existant' || rawView === 'piste' || rawView === 'piste2' || rawView === 'piste3' ? rawView : 'existant'
   const situationId = route.query.get('situation') ?? SITUATIONS[0].id
   const situation = SITUATIONS.find((s) => s.id === situationId)
   const isAll = situationId === ALL || !situation
@@ -94,25 +95,21 @@ export function Case1({ route }: { route: Route }) {
   }
 
   const variantSwitch = (
-    <fieldset className="bar-variant" aria-describedby="bar-variant-note">
-      <legend className="visually-hidden">Variante affichée</legend>
-      <div className="bar-switch">
-      {VIEWS.map(([v, label, short]) => (
-        <label key={v} className={`bar-switch__opt${view === v ? ' is-selected' : ''}`}>
-          <input type="radio" name="vue" value={v} checked={view === v} onChange={() => update({ vue: v })} aria-label={label} />
-          <span className="demo-bar__hide-sm" aria-hidden="true">{label}</span><span className="demo-bar__only-sm" aria-hidden="true">{short}</span>
-        </label>
-      ))}
-      </div>
-      <p id="bar-variant-note" className="bar-variant__note">Ces variantes peuvent être mesurées avec un outil d’A/B{'\u00a0'}testing.</p>
-    </fieldset>
+    <VariantTabs
+      options={VIEWS.map(([v, label]) => [v, label] as [View, string])}
+      value={view}
+      onChange={(v) => update({ vue: v })}
+      note={'Ces variantes peuvent être mesurées avec un outil d’A/B\u00a0testing.'}
+    />
   )
+
 
   return (
     <ProtoLayout
       path={route.path}
       caseLabel="Cas 02 · Présenter l’offre par situation"
       barControl={variantSwitch}
+      barControlBelow
       events={['service_view', 'service_cta_click', 'booking_start', 'booking_complete_demo']}
       onReset={() => navigate('/cas-02-ab-test', { replace: true })}
       coulisses={<Case1Coulisses />}

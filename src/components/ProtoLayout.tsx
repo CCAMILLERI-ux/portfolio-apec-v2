@@ -26,6 +26,8 @@ interface Props {
   events: string[]
   /** Commande de démo (ex. choix de la variante), dans la barre du haut. */
   barControl?: ReactNode
+  /** Commande affichée sur une deuxième ligne de la barre, centrée (ex. onglets des variantes). */
+  barControlBelow?: boolean
   /** Rappel contextuel (ex. réservation simulée), dans la barre du haut. */
   barNotice?: string
   onReset?: () => void
@@ -39,7 +41,7 @@ interface Props {
  * - Au centre : la maquette utilisateur, inspirée d'apec.fr, sans aucune explication.
  * - En bas : « Coulisses du prototype » (méthode, provenance, journal).
  */
-export function ProtoLayout({ path, caseLabel, children, coulisses, coulissesMinimal = false, coulissesEnd, events, barControl, barNotice, onReset, intro }: Props) {
+export function ProtoLayout({ path, caseLabel, children, coulisses, coulissesMinimal = false, coulissesEnd, events, barControl, barControlBelow = false, barNotice, onReset, intro }: Props) {
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState('')
 
@@ -102,14 +104,14 @@ export function ProtoLayout({ path, caseLabel, children, coulisses, coulissesMin
       </a>
 
       <div className="demo-bar" ref={barRef} role="region" aria-label="Commandes de la démo (hors maquette)">
-        <div className={`demo-bar__inner${barControl ? ' demo-bar__inner--control' : ''}`}>
+        <div className={`demo-bar__inner${barControl && !barControlBelow ? ' demo-bar__inner--control' : ''}`}>
           <span className="demo-bar__left">
             <Link to="/" className="demo-bar__btn demo-bar__btn--back">
               <ArrowLeft size={16} /> <span className="visually-hidden">Retour au </span>Portfolio
             </Link>
             <span className="demo-bar__case">{caseLabel}</span>
           </span>
-          {barControl}
+          {!barControlBelow && barControl}
           <span className="demo-bar__actions">
             <button
               type="button"
@@ -137,6 +139,7 @@ export function ProtoLayout({ path, caseLabel, children, coulisses, coulissesMin
               <span className="demo-bar__lbl">Réinitialiser<span className="demo-bar__hide-md"> la démo</span></span>
             </button>
           </span>
+          {barControlBelow && barControl && <div className="demo-bar__row2">{barControl}</div>}
           {intro && (
             <div className="demo-bar__intro" role="note">
               <span className="demo-bar__kicker">{intro.kicker}</span>

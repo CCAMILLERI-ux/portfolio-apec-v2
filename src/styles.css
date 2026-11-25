@@ -2099,3 +2099,40 @@ a.esp-row:hover .esp-row__title > span:first-child, button.esp-row:hover .esp-ro
 .coulisses__end { margin: var(--s2) 0 0; font-weight: 600; }
 .ds-sources__studies { margin: 0 0 var(--s2); padding-left: 1.2em; }
 .pf-proof2__list { column-gap: var(--s2); }
+
+/* ---------- Cas 02 : onglets des présentations (2ᵉ ligne de la barre de démo) ---------- */
+.demo-bar__row2 { flex: 1 1 100%; display: flex; justify-content: center; padding: 4px 0 2px; border-top: 1px solid rgba(246, 242, 234, 0.18); }
+.vtabs { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; max-width: 100%; }
+.vtabs__row { display: flex; align-items: center; gap: 12px; min-width: 0; max-width: 100%; }
+.vtabs__label { margin: 0; color: #fff; font-weight: 700; font-size: 0.875rem; white-space: nowrap; }
+.vtabs__list { display: flex; gap: 8px; min-width: 0; }
+.vtabs__tab {
+  flex: none; height: 36px; padding: 0 16px; border: 1px solid #252555; border-radius: 999px;
+  background: #fff; color: #252555; font: inherit; font-size: 0.875rem; font-weight: 600; white-space: nowrap; cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.vtabs__tab:hover { border-color: #FFC400; box-shadow: 0 0 0 1px #FFC400; }
+.vtabs__tab.is-active { background: #FFC400; border-color: #FFC400; color: #252555; font-weight: 800; }
+.vtabs__tab:focus-visible { outline: 3px solid #FFC400; outline-offset: 3px; }
+.vtabs__help { margin: 0; color: #fff; font-size: 0.75rem; text-align: center; }
+.vtabs__note { margin: 0; color: rgba(246, 242, 234, 0.8); font-size: 0.75rem; text-align: center; }
+/* Légère pulsation des onglets inactifs à l'ouverture : 2 cycles, puis arrêt */
+@keyframes vtabs-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 196, 0, 0); } 50% { box-shadow: 0 0 0 4px rgba(255, 196, 0, 0.55); } }
+.vtabs__list.is-fresh .vtabs__tab:not(.is-active) { animation: vtabs-pulse 1.2s ease-in-out 0.4s 2; }
+@media (prefers-reduced-motion: reduce) {
+  .vtabs__list.is-fresh .vtabs__tab:not(.is-active) { animation: none; }
+  .vtabs__tab { transition: none; }
+}
+/* Mobile : libellé au-dessus, onglets en défilement horizontal, sans retour à la ligne */
+@media (max-width: 760px) {
+  .demo-bar__row2 { justify-content: stretch; }
+  .vtabs { align-items: stretch; width: 100%; }
+  .vtabs__row { flex-direction: column; align-items: flex-start; gap: 6px; width: 100%; }
+  .vtabs__list { width: 100%; overflow-x: auto; flex-wrap: nowrap; padding: 4px 2px 6px; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
+  .vtabs__help, .vtabs__note { text-align: left; }
+}
+.demo-bar__row2 { min-width: 0; max-width: 100%; }
+@media (max-width: 760px) {
+  .vtabs, .vtabs__row { min-width: 0; max-width: 100%; }
+  .vtabs__list { max-width: 100%; box-sizing: border-box; }
+}
