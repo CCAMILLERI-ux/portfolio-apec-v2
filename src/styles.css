@@ -2030,7 +2030,7 @@ a.esp-row:hover .esp-row__title > span:first-child, button.esp-row:hover .esp-ro
 .enbref ul { margin: 0; padding-left: 1.2em; }
 .enbref li { margin-bottom: 6px; text-wrap: pretty; }
 .enbref li:last-child { margin-bottom: 0; }
-.src-ref { font-size: 0.875em; white-space: nowrap; }
+.src-ref { font-size: 0.875em; }
 .article .sar { padding-left: 1.2em; }
 .article .sar li, .article .facts li { margin-bottom: 8px; text-wrap: pretty; }
 .article .facts { padding-left: 1.2em; }
@@ -2048,3 +2048,29 @@ a.esp-row:hover .esp-row__title > span:first-child, button.esp-row:hover .esp-ro
 .sources__ref { margin: 0 0 4px; font-weight: 600; }
 .sources__detail { margin: 0 0 2px; color: var(--text-secondary-a11y); text-wrap: pretty; }
 .cr-lead { font-size: 1.0625rem; font-weight: 600; margin: 0 0 var(--s3); max-width: 70ch; text-wrap: pretty; }
+
+/* ---------- Cas 01 : colonne de droite = sommaire + raccourcis (services présentés une seule fois, en fin d'article) ---------- */
+.article-layout > .sidebar--article { align-self: stretch; align-content: start; }
+.side-sticky { position: sticky; top: calc(var(--sticky-h, 0px) + 16px); display: grid; gap: var(--s2); }
+.toc--side { margin: 0; padding: var(--s2) 20px; background: #fff; border-left: 5px solid var(--brand-yellow); box-shadow: var(--shadow); }
+.toc--side .toc__title { margin: 0 0 6px; font-weight: 700; font-size: 1rem; }
+.toc--side ol { font-size: 0.9375rem; }
+.toc--side li { padding: 3px 0; }
+.side-help { padding: var(--s2) 20px; background: var(--brand-blue-tint); border-left: 5px solid var(--brand-blue); }
+.proto .side-help__title { margin: 0 0 8px; font-size: 1rem; font-weight: 700; text-wrap: balance; }
+.side-help ul { list-style: none; margin: 0; padding: 0; }
+.side-help li + li { margin-top: 4px; }
+.proto .side-help__link { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; font-weight: 600; color: var(--brand-blue-deep); }
+.side-help__link svg { flex: none; color: var(--brand-blue); }
+.proto .toc a:focus-visible, .proto .side-help__link:focus-visible { outline: 3px solid var(--brand-blue); outline-offset: 2px; }
+/* Sommaire dans l'article : replié par défaut, uniquement quand la colonne est sous l'article */
+.toc--inline { display: none; }
+.toc--inline summary { cursor: pointer; font-weight: 700; list-style-position: outside; }
+.toc--inline summary:focus-visible { outline: 3px solid var(--brand-blue); outline-offset: 2px; }
+.toc--inline[open] summary { margin-bottom: 8px; }
+.article [id] { scroll-margin-top: calc(var(--sticky-h, 0px) + 16px); }
+@media (max-width: 960px) {
+  .toc--inline { display: block; }
+  .side-sticky { display: none; }
+}
+.toc--inline .toc__title { margin: 0; } .toc--inline[open] .toc__title { margin-bottom: 8px; }
