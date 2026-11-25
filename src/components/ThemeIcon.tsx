@@ -141,6 +141,69 @@ const ICONS: Record<AtelierTheme, React.ReactNode> = {
       <path className={Y} d="M12 48h44M42 34l14 14-14 14" />
     </>
   ),
+  cle: (
+    <>
+      <circle className={W} cx="32" cy="38" r="18" />
+      <circle className={Y} cx="32" cy="38" r="6" />
+      <path className={W} d="m45 51 35 33M64 68l9-9M73 77l9-9" />
+    </>
+  ),
+  boussole: (
+    <>
+      <circle className={W} cx="48" cy="48" r="32" />
+      <path className={Y} d="m60 36-8 16-16 8 8-16z" />
+      <path className={W} d="M48 16v8M48 72v8M16 48h8M72 48h8" />
+    </>
+  ),
+  formation: (
+    <>
+      <path className={W} d="M48 26c-8-6-20-8-34-6v54c14-2 26 0 34 6 8-6 20-8 34-6V20c-14-2-26 0-34 6z" />
+      <path className={Y} d="M48 26v54M24 36h14M24 48h14M58 36h14M58 48h14" />
+    </>
+  ),
+  creation: (
+    <>
+      <path className={W} d="M48 12c12 10 16 24 14 40H34c-2-16 2-30 14-40z" />
+      <path className={W} d="M34 52 24 64h12M62 52l10 12H60" />
+      <circle className={Y} cx="48" cy="34" r="6" />
+      <path className={Y} d="M42 62c0 8 6 16 6 20 0-4 6-12 6-20" />
+    </>
+  ),
+  audit: (
+    <>
+      <path className={W} d="M18 12h34l12 12v20M18 12v70h26" />
+      <path className={W} d="M28 32h22M28 44h16" />
+      <circle className={Y} cx="60" cy="62" r="14" />
+      <path className={Y} d="m70 72 12 12" />
+    </>
+  ),
+  filtre: (
+    <>
+      <path className={W} d="M14 18h68L56 48v26l-16 8V48z" />
+      <path className={Y} d="M26 30h44" />
+      <circle className={Y} cx="74" cy="74" r="8" />
+    </>
+  ),
+  question: (
+    <>
+      <path className={W} d="M14 16h68v46H46l-16 14V62H14z" />
+      <path className={Y} d="M40 32a8 8 0 1 1 12 7c-3 2-4 4-4 7M48 54v1" />
+    </>
+  ),
+  fiches: (
+    <>
+      <rect className={W} x="14" y="24" width="44" height="56" rx="3" />
+      <path className={W} d="M30 24V16h44v56h-16" />
+      <path className={Y} d="M24 40h24M24 52h24M24 64h14" />
+    </>
+  ),
+  ecran: (
+    <>
+      <rect className={W} x="16" y="18" width="64" height="44" rx="3" />
+      <path className={W} d="M8 74h80M38 62l-4 12M58 62l4 12" />
+      <path className={Y} d="m42 32 14 8-14 8z" />
+    </>
+  ),
   groupe: (
     <>
       <circle className={Y} cx="48" cy="30" r="10" />

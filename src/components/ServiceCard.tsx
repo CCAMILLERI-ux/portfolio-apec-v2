@@ -3,10 +3,10 @@ import { KIND_LABEL, pitchOf, type Service, type ServiceKind } from '../data/ser
 import { Link } from '../lib/router'
 import { track } from '../lib/storage'
 import { ArrowRight, Chat, Group, Laptop } from './Icons'
-import { Illustration, type Tone } from './Illustration'
+import type { Tone } from './Illustration'
 import { ModalityChips } from './Modalities'
 import { SERVICE_PHOTO } from '../data/photos'
-import { ATELIER_THEME } from '../data/ateliers'
+import { themeOf } from '../data/ateliers'
 import { ThemeIcon } from './ThemeIcon'
 import { nb } from '../lib/text'
 
@@ -27,19 +27,10 @@ export function KindTag({ kind }: { kind: ServiceKind }) {
 }
 
 export function ServiceVisual({ service, children }: { service: Service; children?: ReactNode }) {
-  // Ateliers : tuile bleue et icône au trait du thème, dans le style des tuiles d'apec.fr.
-  if (service.kind === 'atelier') {
-    return (
-      <div className="svc-visual svc-visual--theme">
-        <ThemeIcon theme={ATELIER_THEME[service.id] ?? 'groupe'} className="svc-visual__icon" />
-        <KindTag kind={service.kind} />
-        {children}
-      </div>
-    )
-  }
+  // Tuile bleue (#026096) et icône au trait du thème, dans le style des tuiles d'apec.fr.
   return (
-    <div className="svc-visual">
-      <Illustration name={service.illustration} tone={KIND_TONE[service.kind]} className="svc-visual__img" />
+    <div className="svc-visual svc-visual--theme">
+      <ThemeIcon theme={themeOf(service.id, service.kind)} className="svc-visual__icon" />
       <KindTag kind={service.kind} />
       {children}
     </div>

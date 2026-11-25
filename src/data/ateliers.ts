@@ -187,11 +187,12 @@ export function ateliersHref(atelierId?: string): string {
   return `/cas-02-ab-test?${q.toString()}${atelierId ? `#atelier-${atelierId}` : ''}`
 }
 
-/** Thème de chaque atelier : icône de la variante tuiles (src/components/ThemeIcon.tsx). */
+/** Thème d'un service : icône au trait de la variante tuiles (src/components/ThemeIcon.tsx). */
 export type AtelierTheme =
   | 'candidature' | 'entretien' | 'remuneration' | 'reseau' | 'ia' | 'marche' | 'mobilite' | 'rebond'
   | 'experience' | 'international' | 'diplome' | 'manager' | 'competences' | 'motivation' | 'carriere'
   | 'reconversion' | 'immersion' | 'durable' | 'attractivite' | 'integration' | 'groupe'
+  | 'cle' | 'boussole' | 'formation' | 'creation' | 'audit' | 'filtre' | 'question' | 'fiches' | 'ecran'
 
 export const ATELIER_THEME: Record<string, AtelierTheme> = {
   // Je cherche un nouvel emploi
@@ -238,4 +239,48 @@ export const ATELIER_THEME: Record<string, AtelierTheme> = {
   'experience-avenir': 'experience',
   'entretien-parcours': 'entretien',
   'entretien-parcours-webinaire': 'entretien',
+}
+
+/** Thème des rendez-vous individuels et des outils (même variante tuiles). */
+const OTHER_THEME: Record<string, AtelierTheme> = {
+  // Rendez-vous — candidats
+  candidature: 'candidature',
+  'entretien-programme': 'entretien',
+  'potentiel-marche': 'marche',
+  'experience-talents': 'experience',
+  'formation-embauche': 'formation',
+  'cles-emploi': 'cle',
+  'changement-poste': 'integration',
+  'mi-carriere': 'rebond',
+  international: 'international',
+  cep: 'boussole',
+  'diagnostic-formation': 'formation',
+  'solution-formation': 'formation',
+  'pret-creation': 'creation',
+  'challenger-idee': 'competences',
+  'accompagnement-creation': 'creation',
+  'rendez-vous-conseil': 'boussole',
+  // Rendez-vous — recruteurs
+  'conseil-recrutement': 'manager',
+  'preselection-candidats': 'filtre',
+  'audit-marque-employeur': 'audit',
+  'audit-sourcing': 'audit',
+  'audit-process-recrutement': 'audit',
+  'formez-avant-embaucher': 'formation',
+  'immersion-recrutement': 'immersion',
+  'cep-collaborateurs': 'boussole',
+  // Outils
+  'simulateur-entretien': 'ecran',
+  'creer-cv': 'candidature',
+  odiapazon: 'question',
+  'simulateur-salaire': 'remuneration',
+  'quel-job': 'fiches',
+  trajectoires: 'marche',
+  'fiches-metiers': 'fiches',
+  osim: 'ecran',
+}
+
+/** Thème de tout service du catalogue ; à défaut, selon le format. */
+export function themeOf(id: string, kind: 'atelier' | 'individuel' | 'outil'): AtelierTheme {
+  return ATELIER_THEME[id] ?? OTHER_THEME[id] ?? (kind === 'atelier' ? 'groupe' : kind === 'individuel' ? 'entretien' : 'ecran')
 }
