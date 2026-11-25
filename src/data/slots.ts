@@ -21,6 +21,14 @@ export const INDIVIDUAL_SLOTS: Slot[] = [
   { id: 'i4', date: 'Vendredi 4 décembre', time: '16 h 00', place: PLACES.distance },
 ]
 
+/** Rendez-vous dont le prochain créneau est éloigné (plus de 15 jours) : créneaux fictifs plus tardifs. */
+export const LATE_INDIVIDUAL_SLOTS: Slot[] = [
+  { id: 'l1', date: 'Mercredi 16 décembre', time: '9 h 30', place: PLACES.centre },
+  { id: 'l2', date: 'Jeudi 17 décembre', time: '14 h 00', place: PLACES.distance },
+  { id: 'l3', date: 'Lundi 21 décembre', time: '10 h 00', place: PLACES.centre },
+  { id: 'l4', date: 'Mardi 22 décembre', time: '16 h 00', place: PLACES.distance },
+]
+
 export const WORKSHOP_SESSIONS: Slot[] = [
   { id: 's1', date: 'Lundi 7 décembre', time: '9 h 30', place: PLACES.centre },
   { id: 's2', date: 'Mercredi 9 décembre', time: '14 h 00', place: PLACES.distance },

@@ -117,7 +117,7 @@ export function Home() {
           Cheffe de projet digital et Product Owner, je pilote des sites et services web de bout en bout{' '}: roadmap
           d’animation, SEO / GEO, parcours utilisateurs, A/B tests et déploiement dans le CMS. Je coordonne les métiers, la DSI
           et les agences, avec un fil rouge{'\u00a0'}: améliorer l’expérience utilisateur, mesures à l’appui. J’aime proposer des pistes, les
-          tester et les faire évoluer avec les équipes produit, éditoriales et{'\u00a0'}techniques.
+          tester et les faire évoluer en binôme avec les équipes produit, éditoriales et{'\u00a0'}techniques.
         </p>
         <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="pf-about__btn">
           Voir mon profil LinkedIn<span className="visually-hidden"> (nouvel onglet)</span> <ArrowRight size={16} />

@@ -12,6 +12,7 @@
  * la candidate, distinctes des intitulés existants.
  */
 
+import { ATELIER_SERVICES } from './ateliers'
 import { RDV_SERVICES } from './rendezVous'
 
 export type Provenance = 'capture' | 'a-verifier'
@@ -475,7 +476,7 @@ export const SERVICES: Service[] = [
     kind: 'atelier',
     modalities: [
       { label: 'Format', value: 'Webinaire', provenance: 'capture' },
-      { label: 'Durée', value: '1 heure', provenance: 'capture' },
+      { label: 'Durée', value: '1 h', provenance: 'capture' },
       TBC('Tarif'),
       TBC('Public'),
     ],
@@ -544,6 +545,8 @@ export const SERVICES: Service[] = [
 
 // Rendez-vous individuels du panneau « Prendre un rendez-vous individuel » (src/data/rendezVous.ts).
 SERVICES.push(...RDV_SERVICES)
+// Ateliers de la vue « Nos services » filtrée sur le format atelier (src/data/ateliers.ts).
+SERVICES.push(...ATELIER_SERVICES)
 
 export const SERVICE_BY_ID: Record<string, Service> = Object.fromEntries(
   SERVICES.map((s) => [s.id, s]),

@@ -32,9 +32,11 @@ export function Case2Coulisses() {
       </CrBlock>
       <CrBlock title="Prise de rendez-vous">
         <p>
-          Prise de rendez-vous{'\u00a0'}: 17 motifs officiels de rendez-vous individuels regroupés selon les 4 situations de « Nos services », avec une
-          porte d’entrée pour les candidats qui ne savent pas par où commencer et un lien vers les ateliers pour ceux
-          qui préfèrent le collectif. L’offre complète reste accessible en un{'\u00a0'}clic.
+          Prise de rendez-vous{'\u00a0'}: 24 motifs officiels de rendez-vous individuels (16 pour les candidats, 8 pour les
+          recruteurs), regroupés selon les situations de « Nos services », avec une porte d’entrée pour les candidats qui ne
+          savent pas par où commencer. Le panneau ne contient que des rendez-vous individuels{'\u00a0'}: quand le prochain
+          créneau est éloigné, une ligne discrète signale l’atelier sur le même sujet, qui a lieu plus tôt, et un lien
+          mène aux ateliers pour ceux qui préfèrent le collectif. L’offre complète reste accessible en un{'\u00a0'}clic.
         </p>
       </CrBlock>
       <CrBlock title="Direction graphique">
