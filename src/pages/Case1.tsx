@@ -2,6 +2,7 @@ import { ArrowRight, Calendar, Chat } from '../components/Icons'
 import { Illustration } from '../components/Illustration'
 import { ExistingCatalog } from '../components/ExistingCatalog'
 import { VariantTabs } from '../components/VariantTabs'
+import { nextUnseen, useSeenViews } from '../lib/seenViews'
 import { ModalityChips } from '../components/Modalities'
 import { ProtoLayout } from '../components/ProtoLayout'
 import { ObservedServiceCard, PhotoVisual, ServiceAction, ServiceCard } from '../components/ServiceCard'
@@ -94,14 +95,29 @@ export function Case1({ route }: { route: Route }) {
     )
   }
 
+  // Progression : présentations vues pendant la session et prochaine à voir.
+  const ORDER = VIEWS.map(([v]) => v)
+  const { seen, markSeen, reset: resetSeen } = useSeenViews(view)
+  const next = nextUnseen(ORDER, view, seen)
+  const nextLabel = next ? VIEWS.find(([v]) => v === next)![1].replace(/ /g, '\u00a0') : ''
+  const goNext = () => {
+    if (!next) return
+    markSeen(next)
+    update({ vue: next })
+    window.scrollTo({ top: 0 })
+    document.querySelector<HTMLElement>('main h1')?.focus({ preventScroll: true })
+  }
+
   const variantSwitch = (
     <VariantTabs
       options={VIEWS.map(([v, label]) => [v, label] as [View, string])}
       value={view}
-      onChange={(v) => update({ vue: v })}
-      note={'Ces variantes peuvent être mesurées avec un outil d’A/B\u00a0testing.'}
+      onChange={(v) => { markSeen(v); update({ vue: v }) }}
+      seen={seen}
+      next={next}
     />
   )
+
 
 
   return (
@@ -111,7 +127,7 @@ export function Case1({ route }: { route: Route }) {
       barControl={variantSwitch}
       barControlBelow
       events={['service_view', 'service_cta_click', 'booking_start', 'booking_complete_demo']}
-      onReset={() => navigate('/cas-02-ab-test', { replace: true })}
+      onReset={() => { navigate('/cas-02-ab-test', { replace: true }); resetSeen('existant') }}
       coulisses={<Case1Coulisses />}
       coulissesMinimal
     >
@@ -257,6 +273,16 @@ export function Case1({ route }: { route: Route }) {
         )}
       </div>
       </>
+      )}
+      {/* Incitation à comparer : tant qu'il reste des présentations à voir, au-dessus du pied de page. */}
+      {next && (
+        <div className="next-variant">
+          <div className="container">
+            <button type="button" className="next-variant__btn" onClick={goNext}>
+              Présentation suivante{'\u00a0'}: {nextLabel} <ArrowRight size={20} />
+            </button>
+          </div>
+        </div>
       )}
     </ProtoLayout>
   )

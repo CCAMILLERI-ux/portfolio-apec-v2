@@ -27,6 +27,10 @@ export function resetAll() {
     Object.keys(localStorage)
       .filter((k) => k.startsWith(PREFIX))
       .forEach((k) => localStorage.removeItem(k))
+    // Progressions mémorisées pour la session (ex. présentations vues du cas 02).
+    Object.keys(sessionStorage)
+      .filter((k) => k.startsWith(PREFIX))
+      .forEach((k) => sessionStorage.removeItem(k))
   } catch {
     /* rien à faire */
   }
