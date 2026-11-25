@@ -127,4 +127,52 @@ export const ATELIER_GROUPS: AtelierGroup[] = [
   },
 ]
 
+/**
+ * Phrase de présentation de chaque atelier, reprise telle quelle de la page « Tous nos services »
+ * d'apec.fr (relevé fourni par la candidate, novembre 2026). Seule adaptation : typographie
+ * (apostrophes, espace insécable avant « % »). « Intégrer les nouvelles recrues » : texte tronqué sur
+ * la page, seule la première phrase, complète, est reprise.
+ */
+export const ATELIER_SUMMARY: Record<string, string> = {
+  'convaincre-cv': 'Un atelier en présentiel ou en distanciel pour construire une candidature et un Profil Apec efficaces',
+  'atelier-entretiens': 'Un atelier pour maîtriser chaque type d’entretien d’embauche et les transformer en opportunités concrètes !',
+  'atelier-remuneration': 'Préparez vos prétentions salariales et abordez la rémunération avec confiance lors d’un entretien d’embauche.',
+  'personal-branding': 'Apprenez à vous démarquer et à maximiser votre visibilité sur les réseaux sociaux.',
+  'oser-reseau': 'Obtenez les clés pour initier une démarche réseau relationnelle efficace et durable, utile à chaque étape de votre parcours !',
+  'atelier-iag': 'Améliorer votre recherche d’emploi avec l’aide de l’intelligence artificielle générative',
+  'explorer-marche': 'Faites du marché de l’emploi votre boussole stratégique pour décider, agir et orienter efficacement votre parcours professionnel.',
+  'changer-travail': 'Changez de travail en toute sérénité : en 1h, préparez et sécurisez votre projet de mobilité professionnelle.',
+  'chomage-un-an': 'Rebondissez après un an de recherche d’emploi et redonnez de l’élan à votre carrière avec « Nouveaux Horizons ».',
+  'experience-senior': 'Donnez de la puissance à votre expérience senior et transformez vos années de carrière en atouts pour l’avenir.',
+  'travailler-etranger': 'Accélérez votre recherche d’emploi à l’international grâce à un atelier en ligne animé par un expert Apec de la mobilité !',
+  'objectif-premier-emploi': 'Un atelier pour gagner en efficacité et booster votre recherche d’emploi',
+  'premier-emploi-atelier': 'Un atelier en groupe pour avoir les clés de votre recherche d’emploi et gagner en efficacité',
+  'jeunes-diplomes-confiance': 'Révélez vos atouts et gagnez en confiance : transformez votre manque d’expérience en véritable force professionnelle.',
+  'remuneration-premier-emploi': 'Prenez confiance dès vos premiers entretiens : maîtrisez votre rémunération et négociez votre salaire avec assurance.',
+  'stage-alternance': 'Maximisez vos chances de décrocher le stage ou l’alternance idéal grâce à nos conseils pratiques et stratégiques !',
+  'doctorat': 'Faites rayonner votre doctorat et décrochez le job idéal grâce à notre service gratuit et 100 % personnalisé.',
+  'evolution-interne': 'En 60 minutes, transformez votre envie de changement en opportunité grâce à la mobilité interne !',
+  'devenir-manager': 'Découvrez si le management est fait pour vous, clarifiez vos motivations et identifiez vos premières actions pour vous lancer.',
+  'competences': 'Identifiez, formalisez et développez vos compétences pour maximiser votre employabilité !',
+  'remuneration-transparence': 'Évaluez votre rémunération et préparez vos arguments salariaux pour votre demande d’augmentation.',
+  'motivation': 'Identifiez vos leviers de motivation pour un avenir professionnel épanoui !',
+  'derniere-partie-carriere': 'Préparez sereinement votre dernière partie de carrière et anticipez une transition réussie vers la retraite.',
+  'autres-formes-emploi': 'Pour vos 10 dernières années d’activité, découvrez les formes alternatives d’emploi lors d’un atelier ou d’un webinaire.',
+  'reconversion': 'Changez de voie avec confiance : 1h de webinaire pour réussir votre reconversion et bâtir un projet solide.',
+  'demission-reconversion': 'Un webinaire d’une heure pour comprendre le dispositif en détail et vous engager.',
+  'immersion-entreprise': 'Testez votre projet pro en conditions réelles et augmentez vos chances d’embauche grâce à l’immersion en entreprise !',
+  'durables-candidat': 'Développez vos compétences durables et devenez acteur de la transition écologique dans votre métier grâce notre atelier.',
+  'offre-attractive': 'Transformez vos offres d’emploi en aimants à talents grâce à des techniques simples, créatives et immédiatement applicables.',
+  'cvtheques': 'Optimisez votre recherche de talents avec les techniques de sourcing. Repartez avec des conseils concrets pour votre entreprise.',
+  'entretien-recrutement-webatelier': 'Maîtrisez les incontournables de l’entretien de recrutement pour réussir vos futurs recrutements.',
+  'marque-employeur': 'Démarquez-vous sur le marché de l’emploi en bâtissant une marque employeur forte et attractive.',
+  'integrer-recrues': 'Réussissez l’intégration de vos nouveaux recrutés et renforcez votre marque employeur.',
+  'ia-recrutements': 'Modernisez vos recrutements avec l’IA générative : gagnez en efficacité et en pertinence dès aujourd’hui !',
+  'transparence-remunerations': 'Anticipez la directive européenne sur la transparence salariale et transformez vos obligations en levier d’attractivité RH !',
+  'durables-recruteur': 'Prenez le virage écologique : renforcez vos pratiques RH, attirez les talents verts et boostez votre marque employeur durable.',
+  'experience-avenir': 'Transformez l’évolution réglementaire sur l’emploi des seniors en levier RH stratégique et en avantage compétitif durable.',
+  'entretien-parcours': 'Maîtrisez l’entretien de parcours professionnel et transformez vos pratiques RH avec un webatelier concret et interactif.',
+  'entretien-parcours-webinaire': 'Maîtrisez le nouveau cadre légal et déployez l’entretien de parcours professionnel efficacement.',
+}
+
 export const ATELIER_COUNT = ATELIER_GROUPS.reduce((n, g) => n + g.ateliers.length, 0)

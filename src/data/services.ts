@@ -12,7 +12,7 @@
  * la candidate, distinctes des intitulés existants.
  */
 
-import { ATELIER_SERVICES } from './ateliers'
+import { ATELIER_SERVICES, ATELIER_SUMMARY } from './ateliers'
 import { RDV_SERVICES } from './rendezVous'
 
 export type Provenance = 'capture' | 'a-verifier'
@@ -547,6 +547,8 @@ export const SERVICES: Service[] = [
 SERVICES.push(...RDV_SERVICES)
 // Ateliers de la vue « Nos services » filtrée sur le format atelier (src/data/ateliers.ts).
 SERVICES.push(...ATELIER_SERVICES)
+// Phrase officielle de chaque atelier (page « Tous nos services »).
+for (const s of SERVICES) if (ATELIER_SUMMARY[s.id]) s.observedSummary = ATELIER_SUMMARY[s.id]
 
 export const SERVICE_BY_ID: Record<string, Service> = Object.fromEntries(
   SERVICES.map((s) => [s.id, s]),
