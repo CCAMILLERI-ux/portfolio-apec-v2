@@ -401,7 +401,13 @@ export function Case3({ path }: { path: string }) {
                 </ul>
               </section>
             </div>
-            <h2 className="sidebar__heading">Sur le même sujet</h2>
+          </aside>
+        </div>
+
+        {/* « Sur le même sujet » sous l'article : la colonne ne contient que le sommaire collant et les raccourcis. */}
+        <section className="related" aria-labelledby="meme-sujet">
+          <h2 id="meme-sujet" className="related__title">Sur le même sujet</h2>
+          <div className="related__grid">
             <SideArticleCard
               to="/conseil/remuneration"
               photo={PHOTOS.conversation}
@@ -421,8 +427,8 @@ export function Case3({ path }: { path: string }) {
               date="05/11/2026"
               rubric="Conseils"
             />
-          </aside>
-        </div>
+          </div>
+        </section>
 
       </div>
     </ProtoLayout>
