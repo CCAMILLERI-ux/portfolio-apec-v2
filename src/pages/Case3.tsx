@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Badge } from '../components/Badge'
 import { CrBlock, CroGrid } from '../components/Coulisses'
-import { External, Plus } from '../components/Icons'
+import { ArrowRight, External, Plus } from '../components/Icons'
 import { ArticleHero, ArticleMeta, SideArticleCard } from '../components/ArticleParts'
 import { PHOTOS } from '../data/photos'
-import { SolutionsCards, SolutionsCompact } from '../components/Cas3Solutions'
+import { SolutionsCards } from '../components/Cas3Solutions'
 import { CAS3_SOLUTIONS, URSSAF_BRUT_NET } from '../data/cas3'
 import { PageBand } from '../components/PageBand'
 import { ProtoLayout } from '../components/ProtoLayout'
@@ -64,6 +64,26 @@ const TYPES: [string, string][] = [
   ['Entretien avec le manager', 'Préparez des exemples concrets reliés aux missions et aux résultats attendus du poste.'],
   ['Entretien avec plusieurs interlocuteurs', 'Adressez-vous à chacun et adaptez vos exemples à son rôle (RH, manager, futur collègue).'],
   ['Mise en situation', 'Reformulez la consigne, annoncez votre démarche, puis expliquez votre raisonnement autant que le résultat.'],
+]
+
+/** Sommaire de l'article : une ancre par H2. */
+function TocList() {
+  return (
+    <ol>
+      {TOC.map((t) => (
+        <li key={t.id}>
+          <Link to={ARTICLE_PATH} anchor={t.id}>{t.label}</Link>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+/** Raccourcis de la colonne vers les groupes du bloc de services, en fin d'article. */
+const HELP_LINKS = [
+  { label: 'M’entraîner à l’entretien', anchor: 'besoin-entrainer' },
+  { label: 'Préparer ma rémunération', anchor: 'besoin-salaire' },
+  { label: 'Préparer mes questions', anchor: 'besoin-questions' },
 ]
 
 /** Lien vers une source de la section « Sources » (ancre interne). */
@@ -140,16 +160,13 @@ export function Case3({ path }: { path: string }) {
               </p>
             </section>
 
-            <nav className="toc" aria-labelledby="sommaire">
-              <h2 id="sommaire" className="toc__title">Sommaire</h2>
-              <ol>
-                {TOC.map((t) => (
-                  <li key={t.id}>
-                    <Link to={ARTICLE_PATH} anchor={t.id}>{t.label}</Link>
-                  </li>
-                ))}
-              </ol>
-            </nav>
+            {/* Mobile et tablette : sommaire en haut de l'article, replié par défaut (la colonne de droite est masquée). */}
+            <details className="toc toc--inline">
+              <summary className="toc__title">Sommaire</summary>
+              <nav aria-label="Sommaire">
+                <TocList />
+              </nav>
+            </details>
 
             <section aria-labelledby="etapes">
               <h2 id="etapes" tabIndex={-1}>Les 5 étapes de préparation</h2>
@@ -242,9 +259,9 @@ export function Case3({ path }: { path: string }) {
                           {' '}<Link to={ARTICLE_PATH} anchor="remuneration">Voir nos repères de rémunération</Link>. Pour
                           traduire un montant brut en net, utilisez le{' '}
                           <a href={URSSAF_BRUT_NET} target="_blank" rel="noopener noreferrer">
-                            convertisseur salaire brut / net de l’Urssaf<span className="visually-hidden"> (site externe, nouvel onglet)</span>
-                          </a>{' '}
-                          <External size={14} />.
+                            convertisseur salaire brut / net de <span className="nowrap">l’Urssaf{'\u00a0'}<External size={14} /></span>
+                            <span className="visually-hidden"> (site externe, nouvel onglet)</span>
+                          </a>.
                         </>
                       )}
                     </dd>
@@ -364,8 +381,26 @@ export function Case3({ path }: { path: string }) {
             </section>
           </article>
 
-          <aside className="sidebar" aria-label="Pour aller plus loin">
-            <SolutionsCompact />
+          <aside className="sidebar sidebar--article" aria-label="Pour aller plus loin">
+            {/* Ordinateur : sommaire et raccourcis vers les services, visibles au défilement. Les services ne sont présentés qu'en fin d'article. */}
+            <div className="side-sticky">
+              <nav className="toc toc--side" aria-label="Sommaire">
+                <p className="toc__title" aria-hidden="true">Sommaire</p>
+                <TocList />
+              </nav>
+              <section className="side-help" aria-labelledby="side-help-titre">
+                <h2 id="side-help-titre" className="side-help__title">Besoin d’aide pour vous préparer{'\u00a0'}?</h2>
+                <ul>
+                  {HELP_LINKS.map((h) => (
+                    <li key={h.anchor}>
+                      <Link to={ARTICLE_PATH} anchor={h.anchor} className="side-help__link">
+                        {h.label} <ArrowRight size={16} />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            </div>
             <h2 className="sidebar__heading">Sur le même sujet</h2>
             <SideArticleCard
               to="/conseil/remuneration"
@@ -425,7 +460,8 @@ const LINK_MAP = [
   ['Conseil — préparer un entretien', 'Entretien programmé (simulation)', '« Répétez-le lors d’une simulation individuelle avec un consultant »', 'Entretien déjà fixé'],
   ['Conseil — préparer un entretien', 'Repères rémunération', '« quelques repères pour aborder le salaire »', 'Question fréquente'],
   ['Conseil — questions (salaire)', 'Convertisseur Urssaf (externe)', '« convertisseur salaire brut / net de l’Urssaf »', 'Passer du brut au net'],
-  ...CAS3_SOLUTIONS.map((s) => ['Conseil — bloc final et colonne', s.official, s.format === 'humain' ? `« ${s.cta} : ${s.official} »` : `« ${s.cta} »`, s.focus ?? s.title]),
+  ['Colonne — « Besoin d’aide pour vous préparer ? »', 'Bloc de services (fin d’article)', '« M’entraîner à l’entretien », « Préparer ma rémunération », « Préparer mes questions »', 'Raccourcis vers chaque groupe'],
+  ...CAS3_SOLUTIONS.map((s) => ['Conseil — bloc final', s.official, s.format === 'humain' ? `« ${s.cta} : ${s.official} »` : `« ${s.cta} »`, s.focus ?? s.title]),
   ['Conseil — « Selon votre profil »', 'Jeunes diplômés : gagnez en confiance, même sans expérience', '« Jeunes diplômés : gagnez en confiance, même sans expérience »', 'Profil : peu d’expérience'],
   ['Conseil — « Selon votre profil »', 'Valoriser les atouts de son expérience senior', '« Valoriser les atouts de son expérience senior »', 'Profil : expérience senior'],
   ['Conseil — « Pas encore d’entretien ? »', 'Réussir sa candidature', '« Réussir sa candidature »', 'En amont de l’entretien'],
@@ -462,7 +498,8 @@ export function Case3Coulisses() {
           liens internes.
         </p>
         <p>
-          Mêmes groupes, même ordre et mêmes destinations dans la colonne et en bas d’article{'\u00a0'}: dans
+          Les services sont présentés une seule fois, en fin d’article, quand le lecteur est prêt à agir{'\u00a0'}; la colonne
+          de droite propose un sommaire et des raccourcis vers ces{'\u00a0'}services. Dans
           chaque groupe, les accompagnements humains (photos), puis les outils en autonomie (icônes). Le simulateur d’entretien prépare
           les <strong>réponses</strong> ; Odiapazon aide à formuler les <strong>questions</strong> à poser au recruteur, à partir d’une
           analyse des cinq dimensions du{'\u00a0'}travail.
