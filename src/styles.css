@@ -1959,13 +1959,7 @@ a.esp-row:hover .esp-row__title > span:first-child, button.esp-row:hover .esp-ro
 /* ---------- V2 : vue « Ateliers » (cartes compactes) ---------- */
 .results-count { color: var(--brand-blue); }
 .proto .grp__title .grp__count { margin-left: auto; padding: 2px 10px; background: var(--brand-yellow); color: var(--brand-navy); font-size: 0.875rem; font-weight: 700; border-radius: 999px; }
-.wgrid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-.wgrid > li { display: flex; }
-.wcard { display: flex; flex-direction: column; align-items: flex-start; width: 100%; padding: 14px 16px 16px; background: #fff; border: 1px solid #e3e4ec; border-top: 4px solid var(--brand-yellow); }
-.proto .wcard__title { margin: 0 0 6px; font-size: 1rem; font-weight: 700; line-height: 1.3; text-wrap: pretty; }
-.wcard__hook { margin: 0 0 6px; font-size: 0.9375rem; color: var(--brand-blue-deep); text-wrap: pretty; }
-.wcard__text { margin: 0 0 6px; font-size: 0.875rem; color: var(--text-secondary-a11y); text-wrap: pretty; }
-.wcard .chips { margin: 2px 0 0; }
-.wcard__action { margin-top: auto; padding-top: 12px; }
-.wcard__action .btn { min-height: 40px; }
-@media (max-width: 600px) { .wgrid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Vue Ateliers : carte ciblée par le lien « Un atelier sur ce sujet a lieu plus tôt » */
+[id^="atelier-"] { scroll-margin-top: calc(var(--sticky-h, 0px) + 16px); }
+[id^="atelier-"]:focus { outline: 3px solid var(--brand-blue); outline-offset: 4px; }

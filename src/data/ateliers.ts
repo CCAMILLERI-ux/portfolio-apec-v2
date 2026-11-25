@@ -176,3 +176,13 @@ export const ATELIER_SUMMARY: Record<string, string> = {
 }
 
 export const ATELIER_COUNT = ATELIER_GROUPS.reduce((n, g) => n + g.ateliers.length, 0)
+
+/**
+ * Adresse de la vue « Ateliers » (variante photos par défaut). Avec un atelier : sa situation,
+ * et l'ancre de sa carte.
+ */
+export function ateliersHref(atelierId?: string): string {
+  const situation = atelierId ? ATELIER_GROUPS.find((g) => g.ateliers.some((x) => x.id === atelierId))?.situationId : undefined
+  const q = new URLSearchParams({ situation: situation ?? 'tous', vue: 'piste3', format: 'atelier' })
+  return `/cas-02-ab-test?${q.toString()}${atelierId ? `#atelier-${atelierId}` : ''}`
+}

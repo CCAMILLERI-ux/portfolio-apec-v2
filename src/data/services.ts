@@ -554,6 +554,11 @@ export const SERVICE_BY_ID: Record<string, Service> = Object.fromEntries(
   SERVICES.map((s) => [s.id, s]),
 )
 
+/** Phrase sous l'accroche : bénéfice rédigé, sinon phrase de présentation officielle (ateliers). */
+export function pitchOf(s: Service): string {
+  return s.benefit || s.observedSummary || ''
+}
+
 export function getService(id: string): Service | undefined {
   return SERVICE_BY_ID[id]
 }

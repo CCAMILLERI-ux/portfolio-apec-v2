@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { getService } from '../data/services'
+import { ateliersHref } from '../data/ateliers'
 import { FAR_SLOT_DAYS, RDV_NEEDS, RDV_START, RDV_START_ID, type RdvMotif, type RdvNeed, type RdvNeedId } from '../data/rendezVous'
 import { SITUATION_ICON, SITUATIONS } from '../data/situations'
 import { navigate, useRoute } from '../lib/router'
@@ -11,8 +12,8 @@ import { ArrowRight, Close } from './Icons'
 const labelOf = (id: RdvNeedId) => SITUATIONS.find((s) => s.id === id)!.label
 const START_LABEL = 'Je ne sais pas par où commencer'
 
-/** Lien vers les ateliers : vue « Tous » du cas 02 filtrée sur le format Atelier. */
-const WORKSHOPS = '/cas-02-ab-test?situation=tous&format=atelier'
+/** Lien vers les ateliers : vue « Tous » du cas 02 filtrée sur le format Atelier, variante photos. */
+const WORKSHOPS = ateliersHref()
 const RECRUITERS_LABEL = 'Pour les recruteurs'
 const CANDIDATE_NEEDS = RDV_NEEDS.filter((n) => n.audience === 'candidat')
 const RECRUITER_NEEDS = RDV_NEEDS.filter((n) => n.audience === 'recruteur')
@@ -79,7 +80,7 @@ export function RdvPanel({ onClose }: { onClose: (restoreFocus?: boolean) => voi
   const openWorkshop = (serviceId: string) => {
     track('service_cta_click', `${serviceId} (atelier plus tôt, panneau rendez-vous)`)
     onClose(false)
-    navigate(`/service/${serviceId}?from=cas-1`)
+    navigate(ateliersHref(serviceId))
   }
 
   const start = getService(RDV_START_ID)!
@@ -181,7 +182,7 @@ function MotifList({ motifs, onChoose, onWorkshop, level = 4 }: { motifs: RdvMot
               <p className="drow__ideal"><strong>Idéal si</strong> {nb(mo.ideal)}</p>
               {mo.workshopId && mo.nextSlotInDays > FAR_SLOT_DAYS && (
                 <p className="rdv-row__workshop">
-                  <a href={`#/service/${mo.workshopId}?from=cas-1`} onClick={(e) => { e.preventDefault(); onWorkshop(mo.workshopId!) }}>
+                  <a href={`#${ateliersHref(mo.workshopId)}`} onClick={(e) => { e.preventDefault(); onWorkshop(mo.workshopId!) }}>
                     Un atelier sur ce sujet a lieu plus{'\u00a0'}tôt
                     <span className="visually-hidden"> : {getService(mo.workshopId)!.officialTitle}</span>
                   </a>

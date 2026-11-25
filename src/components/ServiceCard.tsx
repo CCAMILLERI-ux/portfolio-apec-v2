@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { KIND_LABEL, type Service, type ServiceKind } from '../data/services'
+import { KIND_LABEL, pitchOf, type Service, type ServiceKind } from '../data/services'
 import { Link } from '../lib/router'
 import { track } from '../lib/storage'
 import { ArrowRight, Chat, Group, Laptop } from './Icons'
@@ -69,16 +69,16 @@ export function ServiceAction({ service, from, className = 'btn btn--primary' }:
 }
 
 /** Carte « piste exploratoire ». */
-export function ServiceCard({ service, from, meta, level = 3 }: { service: Service; from: string; meta?: ReactNode; level?: 3 | 4 }) {
+export function ServiceCard({ service, from, meta, level = 3, id }: { service: Service; from: string; meta?: ReactNode; level?: 3 | 4; id?: string }) {
   const H = `h${level}` as 'h3' | 'h4'
   return (
-    <article className={`svc svc--${service.kind}`}>
+    <article id={id} tabIndex={id ? -1 : undefined} className={`svc svc--${service.kind}`}>
       <ServiceVisual service={service} />
       <div className="svc__body">
         <p className="svc__official">{nb(service.officialTitle)}</p>
         {meta}
         <H className="svc__title">{nb(service.hook)}</H>
-        <p className="svc__benefit">{nb(service.benefit)}</p>
+        <p className="svc__benefit">{nb(pitchOf(service))}</p>
         {/* Le format est déjà donné par l'étiquette (meta) : pas de pastille en double. */}
         <ModalityChips items={meta ? service.modalities.filter((m) => m.label !== 'Format') : service.modalities} />
         <div className="svc__actions">
@@ -97,10 +97,10 @@ export function ServiceCard({ service, from, meta, level = 3 }: { service: Servi
  * Carte « version actuelle » : reconstruction du motif vu sur les captures
  * (pictogramme, intitulé, description courte, « En savoir plus » + action).
  */
-export function ObservedServiceCard({ service, from, meta, level = 3 }: { service: Service; from: string; meta?: ReactNode; level?: 3 | 4 }) {
+export function ObservedServiceCard({ service, from, meta, level = 3, id }: { service: Service; from: string; meta?: ReactNode; level?: 3 | 4; id?: string }) {
   const H = `h${level}` as 'h3' | 'h4'
   return (
-    <article className="observed-card">
+    <article id={id} tabIndex={id ? -1 : undefined} className="observed-card">
       <svg className="observed-card__icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
         <path d="M30 8a16 16 0 1 0 10 28" fill="none" stroke="var(--brand-navy)" strokeWidth="3" strokeLinecap="round" />
         <path d="M22 14a10 10 0 1 1 10 18" fill="none" stroke="var(--brand-yellow)" strokeWidth="3" strokeLinecap="round" />

@@ -6,7 +6,7 @@ import { ObservedServiceCard, PhotoVisual, ServiceAction, ServiceCard } from '..
 import { Picto } from '../components/Picto'
 import { WORKSHOP_SESSIONS } from '../data/slots'
 import { ADVICE_BY_SITUATION, IDEAL_IF } from '../data/piste2'
-import { getService, type Service } from '../data/services'
+import { getService, pitchOf, type Service } from '../data/services'
 import { ATELIER_GROUPS } from '../data/ateliers'
 import { ALL_DEMO_SERVICE_IDS, FORMAT_LABEL, groupBySituation, SITUATION_ICON, SITUATIONS } from '../data/situations'
 import { Link, navigate, type Route } from '../lib/router'
@@ -25,7 +25,10 @@ const ALL = 'tous'
 
 export function Case1({ route }: { route: Route }) {
   const rawView = route.query.get('vue')
-  const view: View = rawView === 'existant' || rawView === 'piste2' || rawView === 'piste3' ? rawView : 'piste'
+  /** Vue Ateliers (format=atelier) : variante photos par défaut, la plus parlante pour les ateliers. */
+  const formatAtelier = route.query.get('format') === 'atelier'
+  const view: View =
+    rawView === 'existant' || rawView === 'piste' || rawView === 'piste2' || rawView === 'piste3' ? rawView : formatAtelier ? 'piste3' : 'piste'
   const situationId = route.query.get('situation') ?? SITUATIONS[0].id
   const situation = SITUATIONS.find((s) => s.id === situationId)
   const isAll = situationId === ALL || !situation
@@ -39,7 +42,7 @@ export function Case1({ route }: { route: Route }) {
    * Filtre par format (lien « Découvrir les ateliers » du panneau de rendez-vous) : TOUS les ateliers,
    * classés par situation (la sélection courte de 3 services par situation reste la vue par défaut).
    */
-  const onlyWorkshops = route.query.get('format') === 'atelier'
+  const onlyWorkshops = formatAtelier
   const update = (next: { vue?: View; situation?: string }) => {
     const q = new URLSearchParams({ situation: next.situation ?? current, vue: next.vue ?? view, ...(onlyWorkshops ? { format: 'atelier' } : {}) })
     navigate(`/cas-02-ab-test?${q.toString()}`, { replace: true })
@@ -62,11 +65,13 @@ export function Case1({ route }: { route: Route }) {
   ) => {
     // Étiquette de format visible sur chaque carte, dans toutes les vues.
     const meta = (sv: Service) => <FormatMeta service={sv} />
+    // Vue Ateliers : chaque carte porte une ancre (lien « Un atelier sur ce sujet a lieu plus tôt »).
+    const anchor = (sv: Service) => (onlyWorkshops ? `atelier-${sv.id}` : undefined)
     if (view === 'existant') {
       return (
         <div className="observed-band">
           <div className="observed-grid">
-            {list.map((s) => <ObservedServiceCard key={s.id} service={s} from="cas-1" level={level} meta={meta?.(s)} />)}
+            {list.map((s) => <ObservedServiceCard key={s.id} id={anchor(s)} service={s} from="cas-1" level={level} meta={meta?.(s)} />)}
           </div>
         </div>
       )
@@ -74,14 +79,14 @@ export function Case1({ route }: { route: Route }) {
     if (view === 'piste') {
       return (
         <div className="svc-grid">
-          {list.map((s) => <ServiceCard key={s.id} service={s} from="cas-1" level={level} meta={meta?.(s)} />)}
+          {list.map((s) => <ServiceCard key={s.id} id={anchor(s)} service={s} from="cas-1" level={level} meta={meta?.(s)} />)}
         </div>
       )
     }
-    if (view === 'piste3') return <Piste3 services={list} level={level} meta={meta} grouped={level === 4} />
+    if (view === 'piste3') return <Piste3 services={list} level={level} meta={meta} grouped={level === 4} anchor={anchor} />
     return (
       <ul className="dlist" aria-label="Services, avec la situation où chacun est le plus utile">
-        {list.map((s) => <DecisionRow key={s.id} service={s} level={level} />)}
+        {list.map((s) => <DecisionRow key={s.id} id={anchor(s)} service={s} level={level} />)}
         {withHelp && <HelpRow level={level} />}
       </ul>
     )
@@ -187,9 +192,7 @@ export function Case1({ route }: { route: Route }) {
                     <Icon size={28} className="grp__icon" /> {nb(g.situation.label)}
                     <span className="grp__count">{g.serviceIds.length}<span className="visually-hidden"> ateliers</span></span>
                   </h3>
-                  <ul className="wgrid">
-                    {g.serviceIds.map((id) => <li key={id}><WorkshopCard service={getService(id)!} /></li>)}
-                  </ul>
+                  {renderVariant(g.serviceIds.map(getService).filter(Boolean) as Service[], 4)}
                 </section>
               )
             })
@@ -255,33 +258,20 @@ export function Case1({ route }: { route: Route }) {
   )
 }
 
-/** Carte compacte d'atelier (vue filtrée sur le format atelier) : intitulé, accroche, phrase, modalités connues, « Inscrivez-vous ». */
-function WorkshopCard({ service }: { service: Service }) {
-  return (
-    <article className="wcard">
-      <h4 className="wcard__title">{nb(service.officialTitle)}</h4>
-      <p className="wcard__hook">{nb(service.hook)}</p>
-      {service.observedSummary && <p className="wcard__text">{nb(service.observedSummary)}</p>}
-      <ModalityChips items={service.modalities} />
-      <div className="wcard__action">
-        <ServiceAction service={service} from="cas-1" className="btn btn--primary btn--sm" />
-      </div>
-    </article>
-  )
-}
-
 /**
  * Variante liste — ligne de la liste de décision : pictogramme, accroche en titre, « Idéal si »,
  * format, puis le bouton d'action principal (seul élément cliquable de la ligne).
  */
-function DecisionRow({ service, level }: { service: Service; level: 3 | 4 }) {
+function DecisionRow({ service, level, id }: { service: Service; level: 3 | 4; id?: string }) {
   const H = `h${level}` as 'h3' | 'h4'
   return (
-    <li className="drow">
+    <li id={id} tabIndex={id ? -1 : undefined} className="drow">
       <span className="drow__icon"><Picto kind={service.kind} size={36} /></span>
       <div className="drow__main">
         <H className="drow__title">{nb(service.hook)}</H>
-        {IDEAL_IF[service.id] && <p className="drow__ideal"><strong>Idéal si</strong> {nb(IDEAL_IF[service.id])}</p>}
+        {IDEAL_IF[service.id]
+          ? <p className="drow__ideal"><strong>Idéal si</strong> {nb(IDEAL_IF[service.id])}</p>
+          : service.observedSummary && <p className="drow__ideal">{nb(service.observedSummary)}</p>}
       </div>
       <div className="drow__foot">
         <p className="drow__format"><span className="visually-hidden">Format{'\u00a0'}: </span>{FORMAT_LABEL[service.kind]}</p>
@@ -323,16 +313,16 @@ function FormatMeta({ service }: { service: Service }) {
 }
 
 /** Piste 3 : de l'humain. Photos à la place des pictogrammes ; ordre rendez-vous, atelier, outil. */
-function Piste3({ services, level = 3, meta, grouped = false }: { services: Service[]; level?: 3 | 4; meta: (s: Service) => React.ReactNode; grouped?: boolean }) {
+function Piste3({ services, level = 3, meta, grouped = false, anchor = () => undefined }: { services: Service[]; level?: 3 | 4; meta: (s: Service) => React.ReactNode; grouped?: boolean; anchor?: (s: Service) => string | undefined }) {
   const H = `h${level}` as 'h3' | 'h4'
   const card = (s: Service) => (
-    <article key={s.id} className={`svc svc--${s.kind}`}>
+    <article key={s.id} id={anchor(s)} tabIndex={anchor(s) ? -1 : undefined} className={`svc svc--${s.kind}`}>
       <PhotoVisual service={s} />
       <div className="svc__body">
         <p className="svc__official">{nb(s.officialTitle)}</p>
         {meta(s)}
         <H className="svc__title">{nb(s.hook)}</H>
-        <p className="svc__benefit">{nb(s.benefit)}</p>
+        <p className="svc__benefit">{nb(pitchOf(s))}</p>
         <ModalityChips items={s.modalities.filter((m) => m.label !== 'Format')} />
         <div className="svc__actions">
           <ServiceAction service={s} from="cas-1" />
