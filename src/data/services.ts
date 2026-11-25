@@ -12,7 +12,8 @@
  * la candidate, distinctes des intitulés existants.
  */
 
-import { RDV_SERVICES } from './rendezVous'
+import { ATELIER_SERVICES, ATELIER_SUMMARY } from './ateliers'
+import { RDV_SERVICES, RDV_SUMMARY } from './rendezVous'
 
 export type Provenance = 'capture' | 'a-verifier'
 export type ServiceKind = 'atelier' | 'individuel' | 'outil'
@@ -475,7 +476,7 @@ export const SERVICES: Service[] = [
     kind: 'atelier',
     modalities: [
       { label: 'Format', value: 'Webinaire', provenance: 'capture' },
-      { label: 'Durée', value: '1 heure', provenance: 'capture' },
+      { label: 'Durée', value: '1 h', provenance: 'capture' },
       TBC('Tarif'),
       TBC('Public'),
     ],
@@ -544,10 +545,21 @@ export const SERVICES: Service[] = [
 
 // Rendez-vous individuels du panneau « Prendre un rendez-vous individuel » (src/data/rendezVous.ts).
 SERVICES.push(...RDV_SERVICES)
+// Ateliers de la vue « Nos services » filtrée sur le format atelier (src/data/ateliers.ts).
+SERVICES.push(...ATELIER_SERVICES)
+// Phrase officielle de chaque atelier (page « Tous nos services »).
+for (const s of SERVICES) if (ATELIER_SUMMARY[s.id]) s.observedSummary = ATELIER_SUMMARY[s.id]
+// Phrase officielle de chaque rendez-vous (même page).
+for (const s of SERVICES) if (RDV_SUMMARY[s.id]) s.observedSummary = RDV_SUMMARY[s.id]
 
 export const SERVICE_BY_ID: Record<string, Service> = Object.fromEntries(
   SERVICES.map((s) => [s.id, s]),
 )
+
+/** Phrase sous l'accroche : bénéfice rédigé, sinon phrase de présentation officielle (ateliers). */
+export function pitchOf(s: Service): string {
+  return s.benefit || s.observedSummary || ''
+}
 
 export function getService(id: string): Service | undefined {
   return SERVICE_BY_ID[id]

@@ -3,11 +3,15 @@ import { Link } from '../lib/router'
 import { EventLog } from './EventLog'
 
 /** Pied de page « Coulisses du prototype » : seul endroit où le prototype s'explique. */
-export function Coulisses({ events, hidden, children }: { events: string[]; hidden?: boolean; children: ReactNode }) {
+/** Dernière phrase de chaque « Comprendre ce cas » : une proposition, à affiner avec les équipes qui décident. */
+export const BINOME = 'Une piste à affiner en binôme avec les chefs de produit concernés.'
+
+export function Coulisses({ events, hidden, minimal = false, children }: { events: string[]; hidden?: boolean; minimal?: boolean; children: ReactNode }) {
   return (
     <section id="coulisses" className="coulisses" tabIndex={-1} aria-labelledby="coulisses-titre" hidden={hidden}>
       <div className="pf-container">
         <h2 id="coulisses-titre" className="coulisses__title">Coulisses du prototype</h2>
+        {!minimal && <>
         <p className="coulisses__lead">
           Une proposition, conçue comme une piste à discuter avec l’équipe, en complément de{'\u00a0'}l’existant.
         </p>
@@ -15,10 +19,11 @@ export function Coulisses({ events, hidden, children }: { events: string[]; hidd
           Retour au portfolio, réinitialisation et fermeture de ces explications : barre en haut de page.{' '}
           <Link to="/design-system" className="pf-link">Design system et sources</Link>
         </p>
+        </>}
 
         <div className="coulisses__content">{children}</div>
 
-        <section className="cr-block cr-block--wide">
+        {!minimal && <section className="cr-block cr-block--wide">
           <h3>Plan d’événements de la démo</h3>
           <p>
             Événements prévus ici : {events.map((e, i) => (
@@ -27,7 +32,9 @@ export function Coulisses({ events, hidden, children }: { events: string[]; hidd
             Ce journal illustre le plan de marquage : ce ne sont <strong>pas</strong> des résultats d’expérimentation.
           </p>
           <EventLog />
-        </section>
+        </section>}
+
+        <p className={`coulisses__binome${minimal ? ' coulisses__binome--plain' : ''}`}>{BINOME.replace(/ (\S+)$/, '\u00a0$1')}</p>
       </div>
     </section>
   )

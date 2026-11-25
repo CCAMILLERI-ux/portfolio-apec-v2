@@ -1,7 +1,8 @@
 import { nb } from '../lib/text'
 import { useEffect, useId, useRef, useState } from 'react'
 import { KIND_LABEL, type Service } from '../data/services'
-import { INDIVIDUAL_SLOTS, WORKSHOP_SESSIONS, type Slot } from '../data/slots'
+import { FAR_SLOT_DAYS, nextSlotInDays } from '../data/rendezVous'
+import { INDIVIDUAL_SLOTS, LATE_INDIVIDUAL_SLOTS, WORKSHOP_SESSIONS, type Slot } from '../data/slots'
 import { track } from '../lib/storage'
 import { Calendar, Check, Pin } from './Icons'
 
@@ -25,7 +26,8 @@ export function Booking({
   cancelLabel?: string
 }) {
   const isWorkshop = service.kind === 'atelier'
-  const slots = isWorkshop ? WORKSHOP_SESSIONS : INDIVIDUAL_SLOTS
+  const far = (nextSlotInDays(service.id) ?? 0) > FAR_SLOT_DAYS
+  const slots = isWorkshop ? WORKSHOP_SESSIONS : far ? LATE_INDIVIDUAL_SLOTS : INDIVIDUAL_SLOTS
   const [selected, setSelected] = useState<string | null>(null)
   const [step, setStep] = useState<'choose' | 'recap'>('choose')
   const [error, setError] = useState('')

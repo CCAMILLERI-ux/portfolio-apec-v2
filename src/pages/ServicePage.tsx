@@ -65,7 +65,7 @@ export function ServicePage({ id, route }: { id: string; route: Route }) {
             <h1 id="titre-service" tabIndex={-1} className="service-title">{service.officialTitle}</h1>
             <Modalities items={service.modalities} />
             {service.observedSummary && <p className="small">{nb(service.observedSummary)}</p>}
-            <p className="service-hook"><strong>{service.hook}.</strong> {nb(service.benefit)}</p>
+            <p className="service-hook"><strong>{service.hook}.</strong>{service.benefit && service.benefit !== service.hook && <> {nb(service.benefit)}</>}</p>
             {service.details && (
               <ul className="plus-list">
                 {service.details.points.map((p) => <li key={p}><Plus size={18} className="plus" /> {nb(p)}</li>)}

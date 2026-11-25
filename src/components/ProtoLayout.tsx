@@ -19,6 +19,8 @@ interface Props {
   children: ReactNode
   /** Explications du prototype : section « Coulisses », en bas de page. */
   coulisses: ReactNode
+  /** Texte court seul (sans plan d'événements ni mode d'emploi). */
+  coulissesMinimal?: boolean
   events: string[]
   /** Commande de démo (ex. choix de la variante), dans la barre du haut. */
   barControl?: ReactNode
@@ -35,7 +37,7 @@ interface Props {
  * - Au centre : la maquette utilisateur, inspirée d'apec.fr, sans aucune explication.
  * - En bas : « Coulisses du prototype » (méthode, provenance, journal).
  */
-export function ProtoLayout({ path, caseLabel, children, coulisses, events, barControl, barNotice, onReset, intro }: Props) {
+export function ProtoLayout({ path, caseLabel, children, coulisses, coulissesMinimal = false, events, barControl, barNotice, onReset, intro }: Props) {
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState('')
 
@@ -110,6 +112,7 @@ export function ProtoLayout({ path, caseLabel, children, coulisses, events, barC
               className={`demo-bar__btn${explain ? ' is-active' : ''}`}
               aria-expanded={explain}
               aria-controls="coulisses"
+              title={explain ? 'Masquer les explications' : 'Comprendre ce cas'}
               onClick={toggleExplain}
             >
               <Info size={16} />
@@ -118,6 +121,7 @@ export function ProtoLayout({ path, caseLabel, children, coulisses, events, barC
             <button
               type="button"
               className="demo-bar__btn"
+              title="Réinitialiser la démo"
               onClick={() => {
                 resetAll()
                 onReset?.()
@@ -206,7 +210,7 @@ export function ProtoLayout({ path, caseLabel, children, coulisses, events, barC
         </footer>
       </div>
 
-      <Coulisses events={events} hidden={!explain}>{coulisses}</Coulisses>
+      <Coulisses events={events} hidden={!explain} minimal={coulissesMinimal}>{coulisses}</Coulisses>
       {rdvOpen && <RdvPanel onClose={closeRdv} />}
     </div>
   )

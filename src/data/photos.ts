@@ -10,6 +10,8 @@
  * Ces photos illustrent des situations : elles ne représentent ni des salariés,
  * ni des consultants, ni des usagers de l'Apec.
  */
+import { ATELIER_GROUPS } from './ateliers'
+
 export interface Photo {
   file: string
   alt: string
@@ -68,6 +70,29 @@ export const SERVICE_PHOTO: Record<string, Photo> = {
   'atelier-iag': PHOTOS.atelierOrdinateurs,
   'creer-cv': PHOTOS.posteDeTravail,
   'atelier-remuneration': PHOTOS.reunionTable,
+}
+
+/**
+ * Ateliers de la vue « Ateliers » sans photo attribuée : photos de groupe en rotation,
+ * jamais la même que la carte précédente (aucune nouvelle photo ajoutée).
+ */
+const WORKSHOP_ROTATION: Photo[] = [
+  PHOTOS.formationSalle, PHOTOS.atelierPostIt, PHOTOS.travailEquipe, PHOTOS.reunionTable,
+  PHOTOS.atelierOrdinateurs, PHOTOS.bureauEquipe, PHOTOS.equipeJeune, PHOTOS.collegues, PHOTOS.conversation,
+]
+{
+  let i = 0
+  for (const g of ATELIER_GROUPS) {
+    let prev: Photo | undefined
+    for (const { id } of g.ateliers) {
+      if (!SERVICE_PHOTO[id]) {
+        let p = WORKSHOP_ROTATION[i++ % WORKSHOP_ROTATION.length]
+        if (p === prev) p = WORKSHOP_ROTATION[i++ % WORKSHOP_ROTATION.length]
+        SERVICE_PHOTO[id] = p
+      }
+      prev = SERVICE_PHOTO[id]
+    }
+  }
 }
 
 export const ALL_PHOTOS: Photo[] = Object.values(PHOTOS)

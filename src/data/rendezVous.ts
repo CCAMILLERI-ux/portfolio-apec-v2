@@ -1,23 +1,23 @@
 /**
- * Prise de rendez-vous individuel (côté candidat) : 17 motifs, regroupés selon les 4 situations
- * candidat de la page « Nos services » (mêmes intitulés et icônes, importés de situations.ts),
- * plus le « Rendez-vous conseil » réservé à l'encart « Je ne sais pas par où commencer ».
+ * Prise de rendez-vous individuel : 24 motifs, tous des entretiens individuels avec un consultant
+ * (sur apec.fr, « rendez-vous » ne désigne que ce format ; les ateliers sont proposés à part).
+ * - Candidats : 16 motifs, regroupés selon les 4 situations candidat de « Nos services », plus le
+ *   « Rendez-vous conseil » réservé à l'encart « Je ne sais pas par où commencer ».
+ * - Recruteurs : 8 motifs, situation « Je recrute et j'ai besoin d'aide ».
  *
- * Intitulés relevés sur la page « Tous nos services » d'apec.fr. Cinq motifs réutilisent des
- * services de « Nos services » ou du cas 01 (candidature, entretien-programme, cles-emploi, cep ;
- * changement-poste est déclaré ici et repris sur « Nos services ») : même identifiant, même intitulé et même « Idéal si » (piste2.ts).
- * Les douze autres sont déclarés ici et ajoutés au catalogue des services (fiche + réservation).
+ * Intitulés relevés sur la page « Tous nos services » d'apec.fr. Aucune durée, aucun prix ni
+ * aucune modalité n'est inventé : seules indications affichées, « 45 min » pour « Réussir sa
+ * candidature » et « Gratuit » pour le CEP. Les phrases « Idéal si… » sont des aides au choix
+ * rédigées par la candidate, pas des informations officielles.
  *
- * Aucune durée, aucun prix ni aucune modalité n'est inventé : seules indications affichées,
- * « 45 min » pour « Réussir sa candidature » et « Gratuit » pour le CEP.
- * Les phrases « Idéal si… » sont des aides au choix rédigées par la candidate, pas des
- * informations officielles.
+ * Délai du prochain créneau : donnée FICTIVE de la démo. Au-delà de 15 jours, le panneau signale
+ * l'atelier équivalent (même situation, même thème), qui a lieu plus tôt.
  */
 import { IDEAL_IF } from './piste2'
-import type { Modality, Service } from './services'
+import type { Audience, Modality, Service } from './services'
 
-/** Les 4 situations candidat de « Nos services » (identifiants de situations.ts). */
-export type RdvNeedId = 'nouvel-emploi' | 'premier-emploi' | 'evoluer' | 'reconversion'
+/** Les 4 situations candidat et la situation recruteur de « Nos services » (identifiants de situations.ts). */
+export type RdvNeedId = 'nouvel-emploi' | 'premier-emploi' | 'evoluer' | 'reconversion' | 'recruter-aide'
 
 export interface RdvMotif {
   serviceId: string
@@ -25,13 +25,21 @@ export interface RdvMotif {
   ideal: string
   /** Seule information pratique affichée, lorsqu'elle est relevée sur apec.fr. */
   tag?: string
+  /** Délai fictif avant le prochain créneau, en jours. */
+  nextSlotInDays: number
+  /** Atelier équivalent (même situation, même thème), proposé si le créneau est éloigné. */
+  workshopId?: string
 }
 
 export interface RdvNeed {
   /** Identifiant de la situation (libellé et icône lus dans situations.ts). */
   id: RdvNeedId
+  audience: Audience
   motifs: RdvMotif[]
 }
+
+/** Au-delà de ce délai (jours), le prochain créneau est considéré comme éloigné. */
+export const FAR_SLOT_DAYS = 15
 
 const TBC = (label: Modality['label']): Modality => ({ label, value: `${label} à confirmer`, provenance: 'a-verifier' })
 
@@ -45,9 +53,10 @@ const rdv = (
   ideal: string,
   illustration: Service['illustration'] = 'echange',
   text?: { hook: string; benefit: string },
+  audience: Audience = 'candidat',
 ): Service => ({
   id,
-  audience: 'candidat',
+  audience,
   officialTitle,
   titleProvenance: 'capture',
   hook: text?.hook ?? 'Un rendez-vous individuel avec un consultant Apec',
@@ -64,7 +73,6 @@ const rdv = (
 const IDEAL = {
   'potentiel-marche': 'vous voulez savoir si votre profil est recherché',
   'experience-talents': 'vous voulez valoriser votre parcours',
-  doctorat: 'vous êtes docteur et visez l’entreprise',
   'mi-carriere': 'vous cherchez un nouveau défi',
   international: 'vous visez un poste à l’étranger',
   'rendez-vous-conseil': 'vous voulez faire le point sur votre situation',
@@ -74,13 +82,21 @@ const IDEAL = {
   'pret-creation': 'vous vous posez la question',
   'challenger-idee': 'vous avez un projet à confronter',
   'accompagnement-creation': 'vous vous lancez',
+  'preselection-candidats': 'vous recevez beaucoup de candidatures',
+  'audit-marque-employeur': 'vous voulez attirer davantage de candidats',
+  'audit-sourcing': 'vous ne trouvez pas les profils recherchés',
+  'audit-process-recrutement': 'vous voulez fluidifier vos recrutements',
+  'formez-avant-embaucher': 'vous ne trouvez pas de candidat déjà formé',
+  'immersion-recrutement': 'vous voulez préparer un recrutement à venir',
+  'cep-collaborateurs': 'vos salariés s’interrogent sur leur évolution',
 } as const
+
+const R = 'recruteur' as const
 
 /** Les rendez-vous déclarés pour le panneau (changement-poste est aussi affiché sur « Nos services »). */
 export const RDV_SERVICES: Service[] = [
   rdv('potentiel-marche', 'Votre Potentiel Marché', IDEAL['potentiel-marche'], 'boussole'),
   rdv('experience-talents', 'Faire de son expérience un atout - Expérience et talents', IDEAL['experience-talents']),
-  rdv('doctorat', 'Comment valoriser votre doctorat ?', IDEAL.doctorat, 'document'),
   // Aussi affiché sur « Nos services » (situation « évoluer ») : accroche propre.
   rdv('changement-poste', 'Concrétiser son changement de poste', IDEAL_IF['changement-poste'], 'boussole', {
     hook: 'Concrétisez votre changement de poste',
@@ -95,34 +111,117 @@ export const RDV_SERVICES: Service[] = [
   rdv('pret-creation', 'Etes-vous prêt pour la création d’entreprise ?', IDEAL['pret-creation'], 'boussole'),
   rdv('challenger-idee', 'Créer son entreprise : challenger son idée', IDEAL['challenger-idee'], 'boussole'),
   rdv('accompagnement-creation', 'Etre accompagné dans sa création d’entreprise', IDEAL['accompagnement-creation'], 'boussole'),
+  // Recruteurs (« Rencontrer un consultant » est déjà au catalogue : conseil-recrutement).
+  rdv('preselection-candidats', 'Déléguer la présélection de ses candidats', IDEAL['preselection-candidats'], 'recrutement', undefined, R),
+  rdv('audit-marque-employeur', 'Faire un audit de sa marque employeur', IDEAL['audit-marque-employeur'], 'recrutement', undefined, R),
+  rdv('audit-sourcing', 'Faire un audit de son sourcing de candidats', IDEAL['audit-sourcing'], 'recrutement', undefined, R),
+  rdv('audit-process-recrutement', 'Faire un audit de votre process de recrutement', IDEAL['audit-process-recrutement'], 'recrutement', undefined, R),
+  rdv('formez-avant-embaucher', 'Formez avant d’embaucher', IDEAL['formez-avant-embaucher'], 'recrutement', undefined, R),
+  rdv('immersion-recrutement', 'L’immersion professionnelle, une solution pour anticiper vos recrutements ?', IDEAL['immersion-recrutement'], 'recrutement', undefined, R),
+  rdv('cep-collaborateurs', 'Faire accompagner vos collaborateurs avec le Conseil en Evolution Professionnelle', IDEAL['cep-collaborateurs'], 'recrutement', undefined, R),
 ]
 
 /** Un seul « Idéal si » par service : celui de « Nos services » s'il existe, sinon celui du panneau. */
-const m = (serviceId: string, tag?: string): RdvMotif => ({
+const m = (serviceId: string, nextSlotInDays: number, opts: { tag?: string; workshopId?: string } = {}): RdvMotif => ({
   serviceId,
   ideal: IDEAL_IF[serviceId] ?? IDEAL[serviceId as keyof typeof IDEAL],
-  tag,
+  nextSlotInDays,
+  ...opts,
 })
 
 /** Le premier motif de chaque situation est le rendez-vous mis en avant sur « Nos services ». */
 export const RDV_NEEDS: RdvNeed[] = [
   {
     id: 'nouvel-emploi',
-    motifs: [m('candidature', '45 min'), m('entretien-programme'), m('potentiel-marche'), m('experience-talents'), m('formation-embauche')],
+    audience: 'candidat',
+    motifs: [
+      m('candidature', 21, { tag: '45 min', workshopId: 'convaincre-cv' }),
+      m('entretien-programme', 4),
+      m('potentiel-marche', 24, { workshopId: 'explorer-marche' }),
+      m('experience-talents', 8),
+      m('formation-embauche', 6),
+    ],
   },
-  { id: 'premier-emploi', motifs: [m('cles-emploi'), m('doctorat')] },
-  { id: 'evoluer', motifs: [m('changement-poste'), m('mi-carriere'), m('international')] },
+  { id: 'premier-emploi', audience: 'candidat', motifs: [m('cles-emploi', 18, { workshopId: 'objectif-premier-emploi' })] },
+  {
+    id: 'evoluer',
+    audience: 'candidat',
+    motifs: [m('changement-poste', 20, { workshopId: 'evolution-interne' }), m('mi-carriere', 7), m('international', 9)],
+  },
   {
     id: 'reconversion',
-    motifs: [m('cep', 'Gratuit'), m('diagnostic-formation'), m('solution-formation'), m('pret-creation'), m('challenger-idee'), m('accompagnement-creation')],
+    audience: 'candidat',
+    motifs: [
+      m('cep', 28, { tag: 'Gratuit', workshopId: 'reconversion' }),
+      m('diagnostic-formation', 6),
+      m('solution-formation', 8),
+      m('pret-creation', 5),
+      m('challenger-idee', 10),
+      m('accompagnement-creation', 12),
+    ],
+  },
+  {
+    id: 'recruter-aide',
+    audience: 'recruteur',
+    motifs: [
+      m('conseil-recrutement', 5),
+      m('preselection-candidats', 7),
+      m('audit-marque-employeur', 26, { workshopId: 'marque-employeur' }),
+      m('audit-sourcing', 22, { workshopId: 'cvtheques' }),
+      m('audit-process-recrutement', 9),
+      m('formez-avant-embaucher', 6),
+      m('immersion-recrutement', 11),
+      m('cep-collaborateurs', 8),
+    ],
   },
 ]
 
-/** Porte d'entrée « Je ne sais pas par où commencer » (hors tuiles). */
-export const RDV_START: RdvMotif = m('rendez-vous-conseil')
+/** Porte d'entrée « Je ne sais pas par où commencer » (candidats, hors tuiles). */
+export const RDV_START: RdvMotif = m('rendez-vous-conseil', 3)
 
-/** Total affiché dans « Voir les 17 motifs » : motifs des situations + Rendez-vous conseil. */
+/** Total affiché dans « Voir tous les motifs » : motifs des situations + Rendez-vous conseil (24). */
 export const RDV_COUNT = RDV_NEEDS.reduce((n, g) => n + g.motifs.length, 0) + 1
 
 /** Porte d'entrée pour les candidats qui ne savent pas par où commencer. */
 export const RDV_START_ID = RDV_START.serviceId
+
+/** Délai fictif du prochain créneau d'un rendez-vous (réservation simulée). */
+export function nextSlotInDays(serviceId: string): number | undefined {
+  if (serviceId === RDV_START_ID) return RDV_START.nextSlotInDays
+  for (const n of RDV_NEEDS) {
+    const mo = n.motifs.find((x) => x.serviceId === serviceId)
+    if (mo) return mo.nextSlotInDays
+  }
+  return undefined
+}
+
+/**
+ * Phrase de présentation de chaque rendez-vous, reprise telle quelle de la page « Tous nos services »
+ * d'apec.fr (relevé fourni par la candidate). Les textes coupés sur la page le restent (« … »).
+ */
+export const RDV_SUMMARY: Record<string, string> = {
+  'candidature': 'En 45 minutes, transformez votre CV et lettre de motivation pour décrocher le job de vos rêves !',
+  'entretien-programme': 'Préparez-vous sereinement pour votre entretien d’embauche avec une simulation sur-mesure et le feedback d’un professionnel !',
+  'potentiel-marche': 'Votre profil est-il recherché sur le marché du travail ? Pour le savoir, faites le point avec un consultant',
+  'experience-talents': 'Reprenez le contrôle de votre carrière : transformez votre expérience en atout et ouvrez de nouvelles perspectives…',
+  'formation-embauche': 'Vous avez trouvé un poste de cadre mais il vous manque des compétences ? Formez-vous avant l’embauche et sécurisez votre nouveau…',
+  'cles-emploi': 'Vous n’arrivez pas à décrocher votre premier emploi ? Ne restez pas seul. Faites appel à un consultant',
+  'changement-poste': 'Donnez un nouvel élan à votre carrière : l’Apec vous guide pour révéler vos atouts et saisir les bonnes opportunités.',
+  'mi-carriere': '20 ans d’expérience professionnelle et après : comment évoluer vers un nouveau poste ou se fixer un nouveau challenge ?',
+  'international': 'Éclairez votre avenir professionnel à l’international avec un expert qui analyse, conseille et oriente vos choix stratégiques.',
+  'cep': 'Faites évoluer votre carrière avec le Conseil en Evolution Professionnelle (CEP) : un accompagnement gratuit et personnalisé pour…',
+  'diagnostic-formation': 'Décidez enfin de votre avenir professionnel : un consultant décrypte vos questions et éclaire vos choix de formation.',
+  'solution-formation': 'Donnez vie à votre projet de formation : structurez, financez et concrétisez vos ambitions professionnelles avec un expert.',
+  'pret-creation': 'Passez de l’idée au projet : un entretien personnalisé pour évaluer, clarifier et accélérer votre envie d’entreprendre.',
+  'challenger-idee': 'Bénéficiez d’un regard extérieur pour enrichir votre idée de création d’entreprise',
+  'accompagnement-creation': 'Devenez entrepreneur avec sérénité : un accompagnement sur mesure pour concrétiser vos idées et bâtir votre avenir.',
+  'rendez-vous-conseil': 'Un rendez-vous pour poser le diagnostic de votre situation professionnelle et avancer',
+  'conseil-recrutement': 'Trouvez des solutions concrètes à vos difficultés de recrutement grâce à un diagnostic personnalisé réalisé par un expert !',
+  'preselection-candidats': 'TPE/PME, confiez-nous votre sourcing de la rédaction de votre offre d’emploi à la présélection des candidats.',
+  'audit-marque-employeur': 'Accélérez votre marque employeur et attirez les bons talents grâce à un audit complet de votre attractivité !',
+  'audit-sourcing': 'Vous n’arrivez pas à sourcer ? Evaluez avec un consultant vos pratiques et votre approche des candidats',
+  'audit-process-recrutement': 'Optimisez votre recrutement pour attirer, séduire et retenir les talents dans vos équipes TPE et PME !',
+  'formez-avant-embaucher': 'Formez le candidat idéal avant son embauche avec l’Apec et comblez l’écart de compétences.',
+  'immersion-recrutement': 'Vous souhaitez attirer de nouveaux talents dans votre entreprise ? Proposez l’immersion professionnelle !',
+  'cep-collaborateurs': 'Pour vos collaborateurs, un service particulier, le Conseil en Evolution Professionnelle (CEP).',
+}
