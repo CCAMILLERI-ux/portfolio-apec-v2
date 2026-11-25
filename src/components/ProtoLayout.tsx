@@ -9,7 +9,6 @@ import { ArrowLeft, ArrowRight, Calendar, Close, Grid, Info, Menu, Reset, User }
 const PROTO_NAV = [
   { to: '/espace', label: 'Mon espace' },
   { to: '/cas-02-ab-test', label: 'Nos services' },
-  { to: '/cas-01-seo', label: 'Conseils entretien' },
 ]
 
 interface Props {
@@ -204,7 +203,6 @@ export function ProtoLayout({ path, caseLabel, children, coulisses, coulissesMin
             <ul className="proto-footer__links">
               <li><Link to="/espace">Mon espace</Link></li>
               <li><Link to="/cas-02-ab-test">Nos services</Link></li>
-              <li><Link to="/cas-01-seo">Conseils entretien</Link></li>
             </ul>
           </div>
         </footer>

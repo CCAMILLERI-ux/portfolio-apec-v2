@@ -9,8 +9,8 @@ Portfolio de candidature au poste de Chef de projet animation web. Un seul site 
 | Cas | Démo | Compétences illustrées |
 | --- | --- | --- |
 | 02 (`#/cas-02-ab-test`) | **Présenter l’offre par situation** — anciennement « Clarifier l’offre pour faciliter le choix » : entrée par situation, cartes de services, bascule « Version actuelle / Piste exploratoire » | UX/UI, animation du site, hypothèse CRO |
-| 03 (`#/cas-03-inscription`) | **Accompagner l’utilisateur à chaque étape de son inscription** — anciennement « Guider un nouvel inscrit » : accueil guidé d’« Alex » (personnage fictif), recommandations explicables, réservation simulée, « Mes services sélectionnés » | Parcours, activation, recommandation déterministe |
-| 01 (`#/cas-01-seo`) | **De la recherche Google à l’utilisation des services** — anciennement « Relier une recherche à un accompagnement » : page conseil « Comment préparer un entretien de recrutement ? », maillage interne, compléments SEO, GEO et coordination multicanale | SEO éditorial, maillage, acquisition |
+| 03 (`#/cas-03-inscription`) | **Un parcours guidé vers les services** — anciennement « Inscription accompagnée » puis « Guider un nouvel inscrit » : accueil guidé d’« Alex » (personnage fictif), recommandations explicables, réservation simulée, « Mes services sélectionnés » | Parcours, activation, recommandation déterministe |
+| 01 (`#/cas-01-seo`) | **De la recherche en ligne aux services** — anciennement « De la recherche Google aux services » puis « Relier une recherche à un accompagnement » : page conseil « Comment préparer un entretien de recrutement ? », maillage interne, compléments SEO, GEO et coordination multicanale | SEO éditorial, maillage, acquisition |
 
 ## SEO / GEO : quelques pistes
 

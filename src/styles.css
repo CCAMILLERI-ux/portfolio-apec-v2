@@ -1659,7 +1659,8 @@ legend { padding: 0; }
 
 @media (max-width: 1199px) {
   .pf-real__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .pf-proof2__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Résultats : 3 colonnes × 2 lignes sur grand écran, 2 colonnes sur tablette, 1 sur mobile */
+  .pf-proof2__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 860px) {
   .pf-proof2__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1998,3 +1999,6 @@ a.esp-row:hover .esp-row__title > span:first-child, button.esp-row:hover .esp-ro
 .theme-icon .ti-w { stroke: #fff; }
 .theme-icon .ti-y { stroke: var(--brand-yellow); }
 .sidebar .svc-visual--theme, .pick__visual .svc-visual--theme { height: 100%; min-height: 150px; }
+
+/* Résultats de l'accueil : une colonne dès 720 px, pour garder chaque texte sur 2 lignes au plus */
+@media (max-width: 720px) { .pf-proof2__list { grid-template-columns: 1fr; gap: var(--s2); } }

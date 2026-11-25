@@ -16,10 +16,10 @@ import { DesignSystem } from './pages/DesignSystem'
 const TITLES: Record<string, string> = {
   '/': 'Accueil',
   '/cas-02-ab-test': 'Cas 02 — Présenter l’offre par situation',
-  '/cas-03-inscription': 'Cas 03 — Inscription accompagnée',
+  '/cas-03-inscription': 'Cas 03 — Un parcours guidé vers les services',
   '/cas-03-inscription/services-selectionnes': 'Cas 03 — Mes services sélectionnés',
   '/espace': 'Cas 03 — Mon espace',
-  '/cas-01-seo': 'Cas 01 — Préparer un entretien de recrutement',
+  '/cas-01-seo': 'Cas 01 — De la recherche en ligne aux services',
   '/conseil/remuneration': 'Cas 01 — Aborder la rémunération',
   '/design-system': 'Design system & prototypage',
   '/plan-seo': 'SEO / GEO : quelques pistes',
