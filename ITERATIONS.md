@@ -4,7 +4,6 @@
 
 - Site : https://ccamilleri-ux.github.io/portfolio-apec/
 - Dépôt : https://github.com/ccamilleri-ux/portfolio-apec
-- Tag : [`v1-entretien-24-11`](https://github.com/ccamilleri-ux/portfolio-apec/tree/v1-entretien-24-11)
 
 Version figée : elle reste en ligne telle qu’elle a été présentée. Aucune modification n’y est apportée.
 
