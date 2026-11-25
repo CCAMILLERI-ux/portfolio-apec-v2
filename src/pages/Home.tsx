@@ -103,8 +103,8 @@ export function Home() {
         <p className="pf-about__text">
           Cheffe de projet digital, j’anime et je fais évoluer des sites et services web{'\u00a0'}: roadmap d’animation,
           SEO{'\u00a0'}/{'\u00a0'}GEO, parcours utilisateurs, A/B{'\u00a0'}tests et mises en ligne dans le CMS. J’aime proposer des pistes,
-          les tester et les faire évoluer en lien avec les équipes produit, du marketing relationnel, de la DSI et de
-          la{'\u00a0'}communication.
+          les tester et les faire évoluer en lien avec la DSI et les équipes produit, marketing relationnel
+          et{'\u00a0'}communication.
         </p>
         <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="pf-about__btn">
           Voir mon profil LinkedIn<span className="visually-hidden"> (nouvel onglet)</span> <ArrowRight size={16} />
