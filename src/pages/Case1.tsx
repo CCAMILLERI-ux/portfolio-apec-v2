@@ -396,6 +396,7 @@ function Case1Coulisses() {
       <p>L’idée{'\u00a0'}: les présenter selon la situation de chacun, pour aider à trouver le bon service plus{'\u00a0'}vite.</p>
       <p>Ce qui est comparé{'\u00a0'}: la version actuelle et trois présentations (photos, tuiles, liste d’aide au{'\u00a0'}choix).</p>
       <p>Ce qu’on observerait{'\u00a0'}: les clics vers un service, puis les inscriptions et rendez-vous{'\u00a0'}confirmés.</p>
+      <p>À tester aussi{'\u00a0'}: l’entrée «{'\u00a0'}Nos services{'\u00a0'}» dans l’en-tête, et le bouton «{'\u00a0'}Prendre rendez-vous{'\u00a0'}», qui ouvre un panneau{'\u00a0'}latéral.</p>
     </div>
   )
 }
