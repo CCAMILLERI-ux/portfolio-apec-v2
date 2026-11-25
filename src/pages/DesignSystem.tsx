@@ -79,13 +79,6 @@ export function DesignSystem() {
           </ol>
         </section>
 
-        <section aria-labelledby="experience" className="ds-xp">
-          <h2 id="experience">Mon expérience</h2>
-          <p>
-            J’ai créé le design system d’un écosystème de 7{N}sites et je l’utilise au quotidien dans Figma pour décliner
-            les évolutions, harmoniser les interfaces et maquetter rapidement les variantes à{N}tester.
-          </p>
-        </section>
 
         <section aria-labelledby="kit">
           <h2 id="kit">Le design system de ces prototypes</h2>
