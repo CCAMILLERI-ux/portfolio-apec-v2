@@ -2074,3 +2074,12 @@ a.esp-row:hover .esp-row__title > span:first-child, button.esp-row:hover .esp-ro
   .side-sticky { display: none; }
 }
 .toc--inline .toc__title { margin: 0; } .toc--inline[open] .toc__title { margin-bottom: 8px; }
+
+/* Cas 01 : « Sur le même sujet » sous l'article (3 cartes en rangée, empilées sur mobile) */
+.related { margin-top: var(--s4); }
+.proto .related__title { font-size: 1.375rem; margin: 0 0 var(--s2); }
+.related__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); }
+.related__grid .a-card { height: 100%; }
+@media (max-width: 960px) { .related__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .related__grid { grid-template-columns: 1fr; } }
+@media (max-width: 960px) { .article-layout > .sidebar--article { display: none; } }
