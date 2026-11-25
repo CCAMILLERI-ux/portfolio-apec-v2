@@ -67,7 +67,7 @@ export function DesignSystem() {
 
       <div className="pf-container pf-section ds-page">
         <section aria-labelledby="facon">
-          <h2 id="facon">Mes habitudes de travail</h2>
+          <h2 id="facon">Démarche de travail</h2>
           <ol className="ds-flow">
             {STEPS.map((s, i) => (
               <li key={s.title} className="ds-flow__step">
@@ -83,9 +83,9 @@ export function DesignSystem() {
         <section aria-labelledby="kit">
           <h2 id="kit">Le design system de ces prototypes</h2>
           <p className="ds-lead">
-            Pour ce portfolio, j’ai prototypé directement à partir de ce mini design system, construit en relevant les
-            styles d’apec.fr, avec l’aide de l’IA{N}: le code des prototypes a été produit avec Claude{N}Code, à partir de
-            mes choix de conception, de mes contenus et de mes relectures. Démonstration des fondations et des{N}composants.
+            Les prototypes de ce portfolio s’appuient sur un mini design system, construit à partir des styles d’apec.fr.
+            Le code a été généré avec l’aide de l’IA (Claude{N}Code), à partir de choix de conception et de contenus définis
+            en amont, puis relus. Ci-dessous, les fondations et les{N}composants.
           </p>
         </section>
       </div>
