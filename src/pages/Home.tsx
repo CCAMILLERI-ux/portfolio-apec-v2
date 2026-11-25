@@ -24,7 +24,7 @@ const WORKS: {
     to: '/cas-01-seo',
     mission: 'Acquisition',
     title: 'De la recherche en ligne aux services',
-    text: 'Être trouvé sur les moteurs de recherche et cité par les IA, puis guider vers le bon service.',
+    text: 'Un contenu fiable, sourcé et structuré pour être trouvé par les moteurs et cité par les IA, et un maillage vers le bon service.',
     cta: 'Explorer la démo',
     color: 'navy',
     scene: 'conseil',
