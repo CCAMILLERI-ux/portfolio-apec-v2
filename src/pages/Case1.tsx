@@ -94,9 +94,8 @@ export function Case1({ route }: { route: Route }) {
   }
 
   const variantSwitch = (
-    <fieldset className="bar-variant">
+    <fieldset className="bar-variant" aria-describedby="bar-variant-note">
       <legend className="visually-hidden">Variante affichée</legend>
-      <span className="bar-variant__label" aria-hidden="true">Variante affichée</span>
       <div className="bar-switch">
       {VIEWS.map(([v, label, short]) => (
         <label key={v} className={`bar-switch__opt${view === v ? ' is-selected' : ''}`}>
@@ -105,6 +104,7 @@ export function Case1({ route }: { route: Route }) {
         </label>
       ))}
       </div>
+      <p id="bar-variant-note" className="bar-variant__note">Ces variantes peuvent être mesurées avec un outil d’A/B{'\u00a0'}testing.</p>
     </fieldset>
   )
 
