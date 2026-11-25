@@ -1,78 +1,62 @@
-import { useId, useRef, useState, type KeyboardEvent } from 'react'
+import { useId, useRef, type KeyboardEvent } from 'react'
+import { Check } from './Icons'
 
-const STORAGE_KEY = 'portfolio-demo:cas02-onglet-utilise'
-
-function readUsed(): boolean {
-  try {
-    return window.sessionStorage.getItem(STORAGE_KEY) === '1'
-  } catch {
-    return false
-  }
-}
-
-function writeUsed() {
-  try {
-    window.sessionStorage.setItem(STORAGE_KEY, '1')
-  } catch {
-    /* stockage indisponible : l'aide disparaît quand même pour la page en cours */
-  }
+/** Flèche vers le haut (vers les onglets), décorative. */
+function ArrowUp() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  )
 }
 
 /**
  * Sélecteur des présentations du cas 02 (barre de démo, hors maquette) : onglets accessibles
- * (role="tablist", flèches, Début, Fin), aide affichée jusqu'au premier changement d'onglet
- * (mémorisé pour la session), pulsation légère des onglets inactifs à l'ouverture
- * (2 cycles, désactivée si l'utilisateur préfère moins d'animations).
+ * (role="tablist", flèches, Début, Fin), coche sur les présentations déjà vues, pulsation de la
+ * prochaine présentation à voir (sauf animations réduites), bandeau d'appel permanent avec compteur.
  */
 export function VariantTabs<T extends string>({
   options,
   value,
   onChange,
-  note,
+  seen,
+  next,
 }: {
   options: [T, string][]
   value: T
   onChange: (v: T) => void
-  /** Mention permanente sous les onglets. */
-  note?: string
+  /** Présentations déjà consultées pendant la session. */
+  seen: string[]
+  /** Prochaine présentation à voir (aucune quand les 4 ont été vues). */
+  next?: T
 }) {
-  const [used, setUsed] = useState(readUsed)
-  const helpId = useId()
-  const noteId = useId()
+  const bannerId = useId()
   const refs = useRef<(HTMLButtonElement | null)[]>([])
-
-  const select = (v: T) => {
-    if (v !== value) {
-      if (!used) {
-        setUsed(true)
-        writeUsed()
-      }
-      onChange(v)
-    }
-  }
+  const total = options.length
+  const count = options.filter(([v]) => seen.includes(v)).length
+  const done = count >= total
 
   const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
     const last = options.length - 1
-    const next = e.key === 'ArrowRight' ? (i === last ? 0 : i + 1)
+    const to = e.key === 'ArrowRight' ? (i === last ? 0 : i + 1)
       : e.key === 'ArrowLeft' ? (i === 0 ? last : i - 1)
       : e.key === 'Home' ? 0
       : e.key === 'End' ? last
       : -1
-    if (next < 0) return
+    if (to < 0) return
     e.preventDefault()
-    refs.current[next]?.focus()
-    select(options[next][0])
+    refs.current[to]?.focus()
+    onChange(options[to][0])
   }
-
-  const describedBy = [used ? null : helpId, note ? noteId : null].filter(Boolean).join(' ') || undefined
 
   return (
     <div className="vtabs">
       <div className="vtabs__row">
         <p className="vtabs__label" aria-hidden="true">Comparez les 4 présentations{' '}:</p>
-        <div className={`vtabs__list${used ? '' : ' is-fresh'}`} role="tablist" aria-label="Présentations à comparer">
+        <div className="vtabs__list" role="tablist" aria-label="Présentations à comparer">
           {options.map(([v, label], i) => {
             const selected = v === value
+            const wasSeen = seen.includes(v)
             return (
               <button
                 key={v}
@@ -81,20 +65,33 @@ export function VariantTabs<T extends string>({
                 role="tab"
                 aria-selected={selected}
                 aria-controls="contenu"
-                aria-describedby={describedBy}
+                aria-describedby={bannerId}
                 tabIndex={selected ? 0 : -1}
-                className={`vtabs__tab${selected ? ' is-active' : ''}`}
-                onClick={() => select(v)}
+                className={`vtabs__tab${selected ? ' is-active' : ''}${wasSeen ? ' is-seen' : ''}${v === next ? ' is-next' : ''}`}
+                onClick={() => onChange(v)}
                 onKeyDown={(e) => onKeyDown(e, i)}
               >
+                {wasSeen && <Check size={14} className="vtabs__check" />}
                 {label}
+                {wasSeen && !selected && <span className="visually-hidden"> (déjà vue)</span>}
               </button>
             )
           })}
         </div>
       </div>
-      {!used && <p id={helpId} className="vtabs__help">Cliquez sur un onglet pour changer de{' '}présentation.</p>}
-      {note && <p id={noteId} className="vtabs__note">{note}</p>}
+      <div id={bannerId} className={`vtabs__banner${done ? ' is-done' : ''}`}>
+        <span className="vtabs__banner-icon">{done ? <Check size={20} /> : <ArrowUp />}</span>
+        <p className="vtabs__banner-text">
+          {done ? (
+            <><strong>Vous avez vu les 4 présentations.</strong> Laquelle vous aide le plus à{' '}choisir{' '}?</>
+          ) : (
+            <><strong>À découvrir{' '}: 4 présentations de la même page.</strong> Cliquez sur chaque onglet pour les{' '}comparer.</>
+          )}
+        </p>
+        <p className="vtabs__count" role="status" aria-live="polite">
+          Vu{' '}: {count}{' '}/{' '}{total}
+        </p>
+      </div>
     </div>
   )
 }
