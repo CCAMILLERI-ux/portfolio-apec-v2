@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from '../lib/router'
+import { PortfolioFooter } from './PortfolioFooter'
 
 /** Habillage du portfolio : couleurs et typographie du design system Apec, sans les éléments propres au prototype. */
 export function PortfolioLayout({ children, isHome = false }: { children: ReactNode; isHome?: boolean }) {
@@ -20,21 +21,13 @@ export function PortfolioLayout({ children, isHome = false }: { children: ReactN
           <nav aria-label="Portfolio">
             <ul className="pf-nav">
               <li><Link to="/" anchor="realisations">Réalisations</Link></li>
-              <li><Link to="/design-system">Design system</Link></li>
               <li><Link to="/" anchor="a-propos">À propos</Link></li>
             </ul>
           </nav>
         </div>
       </header>
       <main id="contenu" tabIndex={-1}>{children}</main>
-      <footer className="pf-footer">
-        <div className="pf-container">
-          <p className="pf-footer__line">
-            Portfolio de candidature indépendant, sans affiliation à{'\u00a0'}l’Apec ·{' '}
-            <Link to="/design-system" anchor="sources">Sources et mentions</Link> · Version 2
-          </p>
-        </div>
-      </footer>
+      <PortfolioFooter />
     </div>
   )
 }

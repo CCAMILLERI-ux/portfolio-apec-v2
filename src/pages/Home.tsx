@@ -7,7 +7,7 @@ const LINKEDIN = 'https://www.linkedin.com/in/caroline-camilleri-pro/'
 
 type Scene = 'conseil' | 'boussole' | 'echange' | 'document'
 
-/** Les quatre réalisations : une couleur du design system par carte. */
+/** Les trois réalisations : une couleur du design system par carte. */
 const WORKS: {
   n: string
   to: string
@@ -35,7 +35,7 @@ const WORKS: {
     to: '/cas-02-ab-test',
     mission: 'Performance &\u00a0conversion',
     title: 'Présenter l’offre par situation',
-    text: 'Trois présentations des services par situation, comparées par A/B test, une entrée « Nos services » dans l’en‑tête et la prise de rendez-vous en quelques clics.',
+    text: 'La version actuelle et trois variantes par situation, comparées par A/B test, avec « Nos services » dans l’en‑tête et un rendez‑vous en quelques clics.',
     cta: 'Explorer la démo',
     color: 'yellow',
     scene: 'boussole',
@@ -52,27 +52,14 @@ const WORKS: {
     scene: 'echange',
     tone: 'blue',
   },
-  {
-    n: '04',
-    to: '/plan-seo',
-    mission: 'Acquisition',
-    title: 'SEO / GEO\u00a0: quelques pistes',
-    text: 'Une piste illustrée, à discuter avec l’équipe.',
-    cta: 'Découvrir les pistes',
-    color: 'tint',
-    scene: 'document',
-    tone: 'blue',
-  },
 ]
 
 /** Résultats de la candidate (sans nom d'employeur). */
 const RESULTS = [
-  { figure: '83 %', text: 'conformité SEO technique des sites dont je pilote la stratégie SEO / GEO' },
-  { figure: '× 2', text: 'conversion du tunnel de création de compte d’un espace client B2B, grâce à l’UX et aux A/B tests' },
-  { figure: '70 %', text: 'des comptes clients créés en ligne via cet espace\u00a0client' },
-  { figure: '3,6 M€', text: 'de chiffre d’affaires digital généré par cet espace client' },
-  { figure: '7 sites', text: 'et plus de 25 services digitaux pilotés avec la DSI et 6 agences' },
-  { figure: '17 000', text: 'contacts B2B par an, grâce à la refonte d’un moteur de recherche (Algolia)' },
+  { figure: '83\u00a0%', text: 'conformité SEO technique des sites\u00a0pilotés' },
+  { figure: '×\u00a02', text: 'conversion d’un tunnel de création de compte, grâce à l’UX et aux A/B\u00a0tests' },
+  { figure: '17\u00a0000', text: 'contacts B2B par an après la refonte d’un moteur de\u00a0recherche' },
+  { figure: '7\u00a0sites', text: 'et plus de 25 services pilotés avec la DSI et 6\u00a0agences' },
 ]
 
 export function Home() {
@@ -84,7 +71,7 @@ export function Home() {
           Rendre apec.fr toujours plus fluide, utile et{' '}performant
         </h1>
         <p className="pf-hero2__text">
-          Quatre réalisations autour des missions du poste{'\u00a0'}: acquisition SEO / GEO, performance et conversion,
+          Trois réalisations autour des missions du poste{'\u00a0'}: acquisition SEO{'\u00a0'}/{'\u00a0'}GEO, performance et conversion,
           animation du{'\u00a0'}site.
         </p>
       </section>
@@ -114,10 +101,10 @@ export function Home() {
       <section className="pf-container pf-about" aria-labelledby="a-propos">
         <h2 id="a-propos" className="pf-about__title" tabIndex={-1}>À propos de moi</h2>
         <p className="pf-about__text">
-          Cheffe de projet digital et Product Owner, je pilote des sites et services web de bout en bout{' '}: roadmap
-          d’animation, SEO / GEO, parcours utilisateurs, A/B tests et déploiement dans le CMS. Je coordonne les métiers, la DSI
-          et les agences, avec un fil rouge{'\u00a0'}: améliorer l’expérience utilisateur, mesures à l’appui. J’aime proposer des pistes, les
-          tester et les faire évoluer en binôme avec les équipes produit, du marketing relationnel, de la DSI et de la{'\u00a0'}communication.
+          Cheffe de projet digital, j’anime et je fais évoluer des sites et services web{'\u00a0'}: roadmap d’animation,
+          SEO{'\u00a0'}/{'\u00a0'}GEO, parcours utilisateurs, A/B{'\u00a0'}tests et mises en ligne dans le CMS. J’aime proposer des pistes,
+          les tester et les faire évoluer en binôme avec les équipes produit, du marketing relationnel, de la DSI et de
+          la{'\u00a0'}communication.
         </p>
         <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="pf-about__btn">
           Voir mon profil LinkedIn<span className="visually-hidden"> (nouvel onglet)</span> <ArrowRight size={16} />
@@ -126,7 +113,7 @@ export function Home() {
 
       <section className="pf-proof2" aria-labelledby="resultats">
         <div className="pf-container">
-          <h2 id="resultats" className="pf-proof2__title">Quelques résultats obtenus sur mes{' '}projets</h2>
+          <h2 id="resultats" className="pf-proof2__title">Quelques résultats obtenus</h2>
           <ul className="pf-proof2__list">
             {RESULTS.map((r) => (
               <li key={r.figure}>

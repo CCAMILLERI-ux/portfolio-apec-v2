@@ -6,7 +6,7 @@ import { EventLog } from './EventLog'
 /** Dernière phrase de chaque « Comprendre ce cas » : une proposition, à affiner avec les équipes concernées. */
 export const BINOME = 'Une piste à affiner avec les chefs de produit et le webanalyste.'
 
-export function Coulisses({ events, hidden, minimal = false, children }: { events: string[]; hidden?: boolean; minimal?: boolean; children: ReactNode }) {
+export function Coulisses({ events, hidden, minimal = false, end, children }: { events: string[]; hidden?: boolean; minimal?: boolean; end?: ReactNode; children: ReactNode }) {
   return (
     <section id="coulisses" className="coulisses" tabIndex={-1} aria-labelledby="coulisses-titre" hidden={hidden}>
       <div className="pf-container">
@@ -17,7 +17,7 @@ export function Coulisses({ events, hidden, minimal = false, children }: { event
         </p>
         <p className="coulisses__hint">
           Retour au portfolio, réinitialisation et fermeture de ces explications : barre en haut de page.{' '}
-          <Link to="/design-system" className="pf-link">Design system et sources</Link>
+          <Link to="/sources" className="pf-link">Sources et mentions</Link>
         </p>
         </>}
 
@@ -35,6 +35,7 @@ export function Coulisses({ events, hidden, minimal = false, children }: { event
         </section>}
 
         <p className={`coulisses__binome${minimal ? ' coulisses__binome--plain' : ''}`}>{BINOME.replace(/ (\S+)$/, '\u00a0$1')}</p>
+        {end && <p className="coulisses__end">{end}</p>}
       </div>
     </section>
   )
