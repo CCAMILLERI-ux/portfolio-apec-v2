@@ -57,7 +57,7 @@ const WORKS: {
     to: '/plan-seo',
     mission: 'Acquisition',
     title: 'SEO / GEO\u00a0: quelques pistes',
-    text: 'Mes habitudes de travail et une piste illustrée, à discuter avec l’équipe.',
+    text: 'Une piste illustrée, à discuter avec l’équipe.',
     cta: 'Découvrir les pistes',
     color: 'tint',
     scene: 'document',
